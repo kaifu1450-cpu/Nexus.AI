@@ -1,4 +1,11 @@
 {
-  "name": "nexus-ai",
+  "name": "nexusai",
   "version": "1.0.0",
+  "description": "NexusAI - All in One AI Assistant",
+  "scripts": {
+    "build": "echo 'No build needed'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
   }
+}
