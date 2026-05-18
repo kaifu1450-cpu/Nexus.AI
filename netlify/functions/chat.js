@@ -3,12 +3,17 @@ const { createClient } = require('@supabase/supabase-js');
 const PLAN_LIMITS = { free: 5, pro: 500, premium: 999999 };
 
 exports.handler = async function (event) {
-  const headers = {
-    'Access-Control-Allow-Origin':  '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Content-Type': 'application/json',
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ status: "ok" })
   };
+};
 
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
   if (event.httpMethod !== 'POST')    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
