@@ -202,6 +202,23 @@ input,textarea{font-family:inherit;}
 /* TOAST */
 .toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border2);color:var(--text);font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;white-space:nowrap;}
 .toast.show{opacity:1;}
+
+/* ── UPGRADED INPUT BOX ── */
+.input-toolbar{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 14px;border-top:1px solid var(--border);}
+.tool-action-btn{width:34px;height:34px;border:1px solid var(--border);background:var(--card);border-radius:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s;flex-shrink:0;}
+.tool-action-btn:hover{color:var(--text);border-color:var(--border2);}
+.tool-action-btn.active{background:rgba(124,106,247,.2);border-color:var(--accent);color:var(--accent2);}
+.tool-action-btn.recording{background:rgba(248,113,113,.2);border-color:var(--red);color:var(--red);animation:pulse-rec .8s infinite alternate;}
+@keyframes pulse-rec{from{opacity:.7}to{opacity:1}}
+.img-preview-wrap{position:relative;display:inline-block;margin:6px 14px 0;}
+.img-preview{max-height:80px;max-width:120px;border-radius:8px;border:1px solid var(--border);object-fit:cover;}
+.img-preview-remove{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--red);border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.upgraded-input-box{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:border-color .15s;overflow:hidden;}
+.upgraded-input-box:focus-within{border-color:rgba(124,106,247,.5);}
+.upgraded-textarea{width:100%;padding:12px 14px;background:none;border:none;outline:none;color:var(--text);font-size:14px;line-height:1.6;resize:none;min-height:24px;max-height:130px;overflow-y:auto;}
+.upgraded-textarea::placeholder{color:var(--muted);}
+.voice-status{font-size:11px;color:var(--red);text-align:center;padding:4px;display:none;}
+.voice-status.show{display:block;}
 </style>
 </head>
 <body>
@@ -357,14 +374,33 @@ input,textarea{font-family:inherit;}
     <div class="input-wrap">
       <div class="input-inner">
         <div class="pills-row" id="pillsRow"></div>
-        <div class="input-box">
-          <textarea id="msgInput" placeholder="Ask anything..." rows="1"
+        <!-- Image Preview -->
+        <div id="imgPreviewWrap" style="display:none;">
+          <div class="img-preview-wrap">
+            <img id="imgPreview" class="img-preview" src="" alt="upload preview">
+            <button class="img-preview-remove" onclick="removeImage()">×</button>
+          </div>
+        </div>
+        <!-- Voice Status -->
+        <div class="voice-status" id="voiceStatus">🎤 Listening... speak now</div>
+        <!-- Upgraded Input Box -->
+        <div class="upgraded-input-box">
+          <textarea id="msgInput" class="upgraded-textarea" placeholder="Ask anything... type, speak 🎤 or upload image 📷" rows="1"
             onkeydown="onKey(event)"
             oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px'">
           </textarea>
-          <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+          <div class="input-toolbar">
+            <!-- Image Upload -->
+            <input type="file" id="imgUpload" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            <div class="tool-action-btn" onclick="document.getElementById('imgUpload').click()" title="Upload Image">📷</div>
+            <!-- Voice Input -->
+            <div class="tool-action-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">🎤</div>
+            <div style="flex:1;"></div>
+            <!-- Send Button -->
+            <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+          </div>
         </div>
-        <div class="input-hint">NexusAI can make mistakes · Powered by Claude AI</div>
+        <div class="input-hint">NexusAI · Voice 🎤 · Image 📷 · Powered by Groq AI (Free)</div>
       </div>
     </div>
   </div>
@@ -441,8 +477,8 @@ input,textarea{font-family:inherit;}
 // ╔══════════════════════════════════════════════════════╗
 // ║  IMPORTANT: Replace with your Supabase credentials  ║
 // ╚══════════════════════════════════════════════════════╝
-const SUPABASE_URL  = 'https://ydmuksiqevdmylulgrdy.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_5jXg1siIVg_dtQV-WNB89Q_Mmk5KfuE';
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
 // ── Init Supabase ────────────────────────────────────────
 const { createClient } = supabase;
@@ -500,7 +536,7 @@ window.addEventListener('load', async () => {
     } else {
       showScreen('loginScreen');
     }
-  }, 300);
+  }, 2300);
 
   // Listen for auth changes
   sb.auth.onAuthStateChange(async (event, session) => {
@@ -747,10 +783,88 @@ function removeTyping() {
   if (t) t.remove();
 }
 
+
+// ══════════════════════════════════════════════
+// IMAGE UPLOAD
+// ══════════════════════════════════════════════
+let uploadedImageBase64 = null;
+let uploadedImageType   = null;
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { showToast('❌ Only images allowed!'); return; }
+  if (file.size > 5 * 1024 * 1024) { showToast('❌ Image too large! Max 5MB'); return; }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    uploadedImageBase64 = e.target.result.split(',')[1];
+    uploadedImageType   = file.type;
+    document.getElementById('imgPreview').src = e.target.result;
+    document.getElementById('imgPreviewWrap').style.display = 'block';
+    showToast('📷 Image ready! Type your question and send.');
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function removeImage() {
+  uploadedImageBase64 = null;
+  uploadedImageType   = null;
+  document.getElementById('imgPreviewWrap').style.display = 'none';
+  document.getElementById('imgPreview').src = '';
+}
+
+// ══════════════════════════════════════════════
+// VOICE INPUT
+// ══════════════════════════════════════════════
+let recognition = null;
+let isListening = false;
+
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    showToast('❌ Voice not supported in this browser. Use Chrome!');
+    return;
+  }
+  if (isListening) { stopVoice(); return; }
+  startVoice();
+}
+
+function startVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'hi-IN';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    document.getElementById('micBtn').classList.add('recording');
+    document.getElementById('voiceStatus').classList.add('show');
+  };
+
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    document.getElementById('msgInput').value = transcript;
+  };
+
+  recognition.onend = () => { stopVoice(); };
+  recognition.onerror = () => { stopVoice(); showToast('❌ Voice error. Try again!'); };
+  recognition.start();
+}
+
+function stopVoice() {
+  isListening = false;
+  document.getElementById('micBtn').classList.remove('recording');
+  document.getElementById('voiceStatus').classList.remove('show');
+  if (recognition) { try { recognition.stop(); } catch(e){} }
+}
+
+
 async function sendMsg(quickText) {
   const input = document.getElementById('msgInput');
   const text  = (quickText || input.value).trim();
-  if (!text || busy) return;
+  if (!text && !uploadedImageBase64 || busy) return;
 
   // Check limit
   const limit = DAILY_LIMITS[userPlan] || 5;
@@ -759,22 +873,56 @@ async function sendMsg(quickText) {
     return;
   }
 
+  const displayText = text || '📷 Image sent';
   input.value = ''; input.style.height = 'auto';
-  messages.push({ role:'user', content:text });
-  appendMsg('user', text);
+
+  // Build message with optional image
+  let userContent;
+  if (uploadedImageBase64) {
+    userContent = [
+      { type: 'image_url', image_url: { url: `data:${uploadedImageType};base64,${uploadedImageBase64}` } },
+      { type: 'text', text: text || 'What is in this image? Describe it in detail.' }
+    ];
+  } else {
+    userContent = text;
+  }
+
+  const imgB64 = uploadedImageBase64;
+  const imgType = uploadedImageType;
+  removeImage();
+
+  messages.push({ role:'user', content: userContent });
+
+  // Show user message
+  hideWelcome();
+  const area = document.getElementById('chatArea');
+  const uid  = 'msg' + Date.now();
+  const udiv = document.createElement('div');
+  udiv.className = 'msg user'; udiv.id = uid;
+  let userHTML = `<div class="msg-av">👤</div><div class="msg-body"><div class="msg-who">You</div><div class="msg-bub">`;
+  if (imgB64) userHTML += `<img src="data:${imgType};base64,${imgB64}" style="max-height:100px;border-radius:8px;margin-bottom:6px;display:block;">`;
+  userHTML += `${esc(displayText)}</div></div>`;
+  udiv.innerHTML = userHTML;
+  area.appendChild(udiv);
+  area.scrollTop = area.scrollHeight;
+
   addTyping();
   busy = true;
   document.getElementById('sendBtn').disabled = true;
+  if (isListening) stopVoice();
 
   try {
-    // Get fresh token
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) { removeTyping(); showToast('❌ Session expired. Please login again.'); busy=false; return; }
+    if (!session) { removeTyping(); showToast('❌ Session expired.'); busy=false; return; }
 
-    const res  = await fetch('/api/chat', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
-      body: JSON.stringify({ messages: messages.slice(-10), system: TOOLS[currentTool].sys }),
+      body: JSON.stringify({
+        messages: messages.slice(-10),
+        system: TOOLS[currentTool].sys,
+        hasImage: !!imgB64,
+      }),
     });
     const data = await res.json();
     removeTyping();
@@ -788,16 +936,12 @@ async function sendMsg(quickText) {
       const reply = data.reply;
       messages.push({ role:'assistant', content:reply });
       appendMsg('ai', mdFormat(reply));
-
-      // Update usage
       dailyUsed++;
       await sb.from('usage_tracking').update({
         daily_message_count: dailyUsed,
-        total_messages: sb.rpc ? undefined : dailyUsed,
       }).eq('user_id', currentUser.id);
       updateUsageUI();
 
-      // Show limit warning
       if (userPlan !== 'premium' && dailyUsed >= limit) {
         setTimeout(() => document.getElementById('limitModal').classList.add('show'), 800);
       }
@@ -811,6 +955,8 @@ async function sendMsg(quickText) {
   document.getElementById('sendBtn').disabled = false;
   document.getElementById('msgInput').focus();
 }
+
+
 
 function onKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
