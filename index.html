@@ -5,28 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NexusAI — Your All-in-One Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* ── VARIABLES ─────────────────────────────────── */
-:root{
-  --bg:#0f0f13;--surface:#17171d;--card:#1e1e27;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
-  --text:#f0f0f5;--muted:rgba(240,240,245,0.45);
-  --accent:#7c6af7;--accent2:#a78bfa;
-  --green:#34d399;--red:#f87171;--yellow:#fbbf24;
-}
+:root{--bg:#0f0f13;--surface:#17171d;--card:#1e1e27;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);--text:#f0f0f5;--muted:rgba(240,240,245,0.45);--accent:#7c6af7;--accent2:#a78bfa;--green:#34d399;--red:#f87171;--yellow:#fbbf24;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;font-size:15px;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
-button{cursor:pointer;font-family:inherit;}
-input,textarea{font-family:inherit;}
-
-/* ── SCREENS ───────────────────────────────────── */
+button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
 .screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
 .screen.show{opacity:1;pointer-events:all;}
-
-/* ── SPLASH ────────────────────────────────────── */
 #splash{background:linear-gradient(160deg,#ff6ec7,#a855f7,#6366f1);}
 .splash-icon{font-size:64px;animation:bounce 1s infinite alternate;}
 .splash-title{font-size:40px;font-weight:800;color:#fff;margin-top:10px;letter-spacing:-1px;}
@@ -35,8 +22,6 @@ input,textarea{font-family:inherit;}
 .splash-bar{height:100%;background:linear-gradient(90deg,#ffe066,#fff);border-radius:20px;width:0;animation:loadBar 2.2s ease forwards;}
 @keyframes bounce{from{transform:translateY(0);}to{transform:translateY(-12px);}}
 @keyframes loadBar{0%{width:0}100%{width:100%}}
-
-/* ── LOGIN ─────────────────────────────────────── */
 #loginScreen{background:var(--bg);}
 .login-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:36px 32px;box-shadow:0 24px 80px rgba(0,0,0,.5);margin:16px;}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
@@ -49,10 +34,9 @@ input,textarea{font-family:inherit;}
 .form-input:focus{border-color:var(--accent);}
 .form-input::placeholder{color:var(--muted);}
 .btn-primary{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#7c6af7,#c084fc);color:#fff;font-size:16px;font-weight:700;margin-bottom:10px;transition:opacity .15s;}
-.btn-primary:hover{opacity:.9;}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.btn-primary:hover{opacity:.9;}.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
 .btn-google{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border2);background:var(--card);color:var(--text);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .15s;}
-.btn-google:hover{border-color:var(--border2);}
+.btn-google:hover{border-color:var(--accent);}
 .divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--muted);font-size:13px;}
 .divider-line{flex:1;height:1px;background:var(--border);}
 .alert-err{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#fca5a5;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;}
@@ -61,16 +45,15 @@ input,textarea{font-family:inherit;}
 .otp-input:focus{border-color:var(--accent);}
 .back-link{text-align:center;font-size:13px;color:var(--muted);margin-top:12px;cursor:pointer;}
 .back-link span{color:var(--accent2);}
-
-/* ── MAIN APP ──────────────────────────────────── */
 #appScreen{flex-direction:row;align-items:stretch;justify-content:flex-start;background:var(--bg);}
-
-/* SIDEBAR */
 .sidebar{width:252px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;height:100dvh;z-index:100;transition:transform .3s;}
-.sb-logo{padding:16px 14px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
-.sb-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#7c6af7,#c084fc);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.sb-logo-name{font-size:16px;font-weight:800;}
-.sb-logo-tag{font-size:9px;color:var(--muted);letter-spacing:.5px;}
+.sb-top{padding:12px 10px 8px;border-bottom:1px solid var(--border);}
+.sb-logo-row{display:flex;align-items:center;gap:8px;padding:4px 4px 10px;}
+.sb-logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#7c6af7,#c084fc);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.sb-logo-name{font-size:15px;font-weight:800;}
+.sb-logo-tag{font-size:9px;color:var(--muted);}
+.new-chat-btn{width:100%;padding:9px 12px;border-radius:10px;border:1px solid var(--border2);background:rgba(124,106,247,.12);color:var(--accent2);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:all .15s;}
+.new-chat-btn:hover{background:rgba(124,106,247,.22);}
 .sb-body{flex:1;overflow-y:auto;padding-bottom:8px;}
 .sb-sec{padding:10px 8px 2px;}
 .sb-sec-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:0 8px;margin-bottom:3px;}
@@ -78,27 +61,24 @@ input,textarea{font-family:inherit;}
 .tool-btn:hover{background:var(--card);color:var(--text);}
 .tool-btn.active{background:rgba(124,106,247,.18);color:var(--accent2);border:1px solid rgba(124,106,247,.25);}
 .tool-btn .ico{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
-
-/* USAGE BOX */
-.usage-box{margin:8px 10px;padding:10px 12px;background:var(--card);border-radius:12px;border:1px solid var(--border);}
-.usage-plan{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.usage-plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
-.upgrade-mini-btn{font-size:10px;color:#fff;background:linear-gradient(135deg,#7c6af7,#c084fc);border:none;border-radius:6px;padding:3px 8px;font-weight:700;}
-.usage-bar-row{display:flex;justify-content:space-between;margin-bottom:5px;}
-.usage-bar-row span{font-size:11px;color:var(--muted);}
-.usage-bar-bg{height:5px;background:var(--border);border-radius:4px;overflow:hidden;}
-.usage-bar-fill{height:100%;border-radius:4px;transition:width .4s;}
-.usage-warn{font-size:11px;color:#fca5a5;margin-top:5px;text-align:center;}
-
-/* USER FOOTER */
+.hist-section{padding:8px 8px 2px;}
+.hist-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.hist-item{width:100%;display:flex;align-items:center;gap:6px;padding:6px 10px;border:none;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;text-align:left;transition:all .12s;position:relative;}
+.hist-item:hover{background:var(--card);color:var(--text);}
+.hist-item.active-h{background:rgba(124,106,247,.1);color:var(--text);}
+.hist-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hist-del{background:none;border:none;color:transparent;font-size:11px;padding:2px 4px;border-radius:4px;flex-shrink:0;}
+.hist-item:hover .hist-del{color:var(--muted);}
+.hist-del:hover{color:var(--red)!important;}
+.free-badge{margin:8px 10px;padding:10px 12px;background:rgba(52,211,153,.08);border-radius:12px;border:1px solid rgba(52,211,153,.2);text-align:center;}
+.free-badge-title{font-size:13px;font-weight:700;color:#34d399;margin-bottom:2px;}
+.free-badge-sub{font-size:11px;color:var(--muted);}
 .sb-footer{padding:10px;border-top:1px solid var(--border);}
 .user-pill{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--card);border-radius:11px;border:1px solid var(--border);}
 .user-av{width:30px;height:30px;background:linear-gradient(135deg,#7c6af7,#c084fc);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
 .user-name{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.user-plan-tag{font-size:10px;color:var(--muted);}
+.user-plan-tag{font-size:10px;color:#34d399;}
 .logout-btn{background:none;border:none;color:var(--muted);font-size:14px;padding:4px;}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{height:54px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--surface);flex-shrink:0;}
 .topbar-left{display:flex;align-items:center;gap:10px;}
@@ -106,24 +86,20 @@ input,textarea{font-family:inherit;}
 .tool-name{font-size:14px;font-weight:700;}
 .tool-desc{font-size:11px;color:var(--muted);}
 .topbar-right{display:flex;gap:7px;align-items:center;}
-.remaining-pill{font-size:11px;color:var(--muted);padding:4px 10px;background:var(--card);border-radius:8px;border:1px solid var(--border);}
-.icon-btn{width:32px;height:32px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .12s;}
+.free-pill{font-size:11px;color:#34d399;padding:4px 10px;background:rgba(52,211,153,.1);border-radius:8px;border:1px solid rgba(52,211,153,.2);font-weight:600;}
+.icon-btn{width:32px;height:32px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .12s;cursor:pointer;border:none;}
 .icon-btn:hover{color:var(--text);}
-
-/* CHAT */
 .chat-area{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:16px;}
 .welcome-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:18px;}
 .welcome-icon{width:64px;height:64px;background:linear-gradient(135deg,#7c6af7,#c084fc);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 40px rgba(124,106,247,.3);}
 .welcome-title{font-size:22px;font-weight:800;letter-spacing:-.3px;}
 .welcome-sub{font-size:13px;color:var(--muted);max-width:340px;line-height:1.6;}
+.free-banner{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:10px 16px;font-size:12px;color:#34d399;font-weight:600;}
 .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;width:100%;max-width:480px;}
 .quick-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;text-align:left;transition:all .12s;}
 .quick-card:hover{border-color:rgba(124,106,247,.4);background:rgba(124,106,247,.08);}
 .qc-icon{font-size:18px;margin-bottom:5px;}
 .qc-title{font-size:12px;font-weight:600;}
-.qc-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-
-/* MESSAGES */
 .msg{display:flex;gap:10px;max-width:800px;width:100%;margin:0 auto;}
 .msg.user{flex-direction:row-reverse;}
 .msg-av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
@@ -136,14 +112,19 @@ input,textarea{font-family:inherit;}
 .msg.user .msg-bub{background:rgba(124,106,247,.18);border:1px solid rgba(124,106,247,.28);border-radius:14px 4px 14px 14px;}
 .msg-bub p{margin-bottom:9px;}.msg-bub p:last-child{margin-bottom:0;}
 .msg-bub strong{color:var(--accent2);font-weight:600;}
+.msg-bub h1{font-size:17px;color:var(--accent2);margin:12px 0 6px;font-weight:800;}
 .msg-bub h2{font-size:15px;color:var(--accent2);margin:12px 0 5px;font-weight:700;}
 .msg-bub h3{font-size:14px;margin:10px 0 4px;font-weight:700;}
 .msg-bub ul,.msg-bub ol{padding-left:18px;margin:7px 0;}
 .msg-bub li{margin-bottom:4px;line-height:1.6;}
 .msg-bub code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.07);padding:2px 5px;border-radius:4px;font-size:12px;color:#a5f3fc;}
-.msg-bub pre{background:#0d0d11;border:1px solid var(--border);border-radius:9px;padding:12px 14px;overflow-x:auto;margin:9px 0;}
-.msg-bub pre code{background:none;padding:0;color:#e2e8f0;font-size:12px;line-height:1.6;}
-.msg-actions{display:flex;gap:5px;margin-top:6px;}
+.msg-bub pre{background:#0d0d11;border:1px solid var(--border);border-radius:9px;overflow:hidden;margin:9px 0;}
+.code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--border);}
+.code-lang{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.code-copy{font-size:11px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:2px 8px;cursor:pointer;}
+.code-copy:hover{color:var(--text);}
+.msg-bub pre code{background:none;padding:12px 14px;color:#e2e8f0;font-size:12px;line-height:1.6;display:block;overflow-x:auto;}
+.msg-actions{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
 .act-btn{padding:3px 9px;border-radius:6px;background:none;border:1px solid var(--border);color:var(--muted);font-size:11px;cursor:pointer;transition:all .1s;}
 .act-btn:hover{color:var(--text);border-color:var(--border2);}
 .typing-bub{display:flex;align-items:center;gap:5px;padding:13px 15px;}
@@ -151,97 +132,62 @@ input,textarea{font-family:inherit;}
 .typing-bub span:nth-child(2){animation-delay:.2s;}
 .typing-bub span:nth-child(3){animation-delay:.4s;}
 @keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-
-/* INPUT */
+.gen-img{max-width:100%;border-radius:12px;border:1px solid var(--border);display:block;margin-top:8px;}
+.img-dl-btn{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border-radius:8px;background:rgba(124,106,247,.2);border:1px solid rgba(124,106,247,.4);color:var(--accent2);font-size:12px;font-weight:600;text-decoration:none;}
 .input-wrap{padding:10px 16px 14px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;}
 .input-inner{max-width:800px;margin:0 auto;}
 .pills-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;}
 .pill{padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .1s;}
 .pill:hover{border-color:rgba(124,106,247,.4);color:var(--text);}
-.input-box{display:flex;align-items:flex-end;gap:9px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 8px 8px 14px;transition:border-color .15s;}
-.input-box:focus-within{border-color:rgba(124,106,247,.5);}
-.input-box textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:14px;line-height:1.6;resize:none;min-height:22px;max-height:130px;overflow-y:auto;}
-.input-box textarea::placeholder{color:var(--muted);}
-.send-btn{width:36px;height:36px;background:linear-gradient(135deg,#7c6af7,#c084fc);border:none;border-radius:9px;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s,transform .1s;}
+.upgraded-input-box{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:border-color .15s;overflow:hidden;}
+.upgraded-input-box:focus-within{border-color:rgba(124,106,247,.5);}
+.upgraded-textarea{width:100%;padding:12px 14px;background:none;border:none;outline:none;color:var(--text);font-size:14px;line-height:1.6;resize:none;min-height:24px;max-height:130px;overflow-y:auto;}
+.upgraded-textarea::placeholder{color:var(--muted);}
+.input-toolbar{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-top:1px solid var(--border);}
+.tool-action-btn{width:32px;height:32px;border:1px solid var(--border);background:none;border-radius:8px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .15s;flex-shrink:0;}
+.tool-action-btn:hover{color:var(--text);border-color:var(--border2);}
+.tool-action-btn.recording{background:rgba(248,113,113,.2);border-color:var(--red);color:var(--red);animation:prec .8s infinite alternate;}
+@keyframes prec{from{opacity:.7}to{opacity:1}}
+.img-preview-wrap{position:relative;display:inline-block;margin:6px 14px 0;}
+.img-preview{max-height:80px;max-width:120px;border-radius:8px;border:1px solid var(--border);object-fit:cover;}
+.img-preview-remove{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--red);border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.voice-status{font-size:11px;color:var(--red);text-align:center;padding:4px;display:none;}
+.voice-status.show{display:block;}
+.send-btn{width:36px;height:36px;background:linear-gradient(135deg,#7c6af7,#c084fc);border:none;border-radius:9px;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s,transform .1s;margin-left:auto;}
 .send-btn:disabled{opacity:.4;cursor:not-allowed;}
 .send-btn:active{transform:scale(.93);}
+.stop-btn{padding:5px 12px;border-radius:8px;border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:var(--red);font-size:12px;font-weight:600;display:none;align-items:center;gap:5px;}
+.stop-btn.show{display:flex;}
 .input-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;}
-
-/* OVERLAY */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;}
 .overlay.show{display:block;}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border2);color:var(--text);font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;}
 @media(max-width:650px){
   .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.5);}
   .menu-btn{display:flex!important;align-items:center;justify-content:center;}
 }
-
-/* UPGRADE MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
-.modal-overlay.show{display:flex;}
-.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:28px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;animation:popIn .25s ease;}
-@keyframes popIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
-.modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;}
-.modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;color:var(--muted);font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;}
-.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
-.plan-card{background:var(--card);border-radius:18px;padding:20px;position:relative;}
-.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;padding:3px 12px;border-radius:20px;white-space:nowrap;color:#000;}
-.plan-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.plan-price{font-size:30px;font-weight:800;margin-bottom:18px;}
-.plan-price span{font-size:12px;color:var(--muted);font-weight:400;}
-.plan-features{display:flex;flex-direction:column;gap:7px;margin-bottom:20px;}
-.plan-feature{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--muted);line-height:1.4;}
-.plan-btn{width:100%;padding:11px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;}
-.plan-current{text-align:center;font-size:12px;font-weight:700;padding:9px;border-radius:10px;}
-
-/* LIMIT MODAL */
-.limit-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
-.limit-modal.show{display:flex;}
-.limit-box{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:32px 28px;text-align:center;width:100%;max-width:340px;animation:popIn .25s ease;}
-
-/* TOAST */
-.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border2);color:var(--text);font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;white-space:nowrap;}
-.toast.show{opacity:1;}
-
-/* ── UPGRADED INPUT BOX ── */
-.input-toolbar{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 14px;border-top:1px solid var(--border);}
-.tool-action-btn{width:34px;height:34px;border:1px solid var(--border);background:var(--card);border-radius:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s;flex-shrink:0;}
-.tool-action-btn:hover{color:var(--text);border-color:var(--border2);}
-.tool-action-btn.active{background:rgba(124,106,247,.2);border-color:var(--accent);color:var(--accent2);}
-.tool-action-btn.recording{background:rgba(248,113,113,.2);border-color:var(--red);color:var(--red);animation:pulse-rec .8s infinite alternate;}
-@keyframes pulse-rec{from{opacity:.7}to{opacity:1}}
-.img-preview-wrap{position:relative;display:inline-block;margin:6px 14px 0;}
-.img-preview{max-height:80px;max-width:120px;border-radius:8px;border:1px solid var(--border);object-fit:cover;}
-.img-preview-remove{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--red);border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
-.upgraded-input-box{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:border-color .15s;overflow:hidden;}
-.upgraded-input-box:focus-within{border-color:rgba(124,106,247,.5);}
-.upgraded-textarea{width:100%;padding:12px 14px;background:none;border:none;outline:none;color:var(--text);font-size:14px;line-height:1.6;resize:none;min-height:24px;max-height:130px;overflow-y:auto;}
-.upgraded-textarea::placeholder{color:var(--muted);}
-.voice-status{font-size:11px;color:var(--red);text-align:center;padding:4px;display:none;}
-.voice-status.show{display:block;}
 </style>
 </head>
 <body>
 
-<!-- ══ SPLASH ══════════════════════════════════════════ -->
 <div class="screen show" id="splash">
   <div class="splash-icon">🍬</div>
   <div class="splash-title">NexusAI</div>
-  <div class="splash-sub">Your All-in-One AI Assistant</div>
+  <div class="splash-sub">Your All-in-One AI Assistant · 100% Free</div>
   <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
 </div>
 
-<!-- ══ LOGIN ═══════════════════════════════════════════ -->
 <div class="screen" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
       <div class="login-logo-icon">✦</div>
       <div class="login-logo-name">NexusAI</div>
     </div>
-    <!-- EMAIL STEP -->
     <div id="emailStep">
       <div class="login-title">Welcome! 👋</div>
-      <div class="login-sub">Login or signup to start using AI — free plan includes 5 messages/day</div>
+      <div class="login-sub">Login or signup — <strong style="color:#34d399;">100% Free · Unlimited messages</strong></div>
       <div id="loginAlert"></div>
       <label class="form-label">Email address</label>
       <input class="form-input" type="email" id="emailInput" placeholder="you@example.com">
@@ -251,9 +197,8 @@ input,textarea{font-family:inherit;}
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         Continue with Google
       </button>
-      <div style="text-align:center;margin-top:18px;font-size:12px;color:var(--muted);">🔒 No password needed · Free forever</div>
+      <div style="text-align:center;margin-top:18px;font-size:12px;color:var(--muted);">🔒 No password needed · ✅ Always free</div>
     </div>
-    <!-- OTP STEP -->
     <div id="otpStep" style="display:none;">
       <div class="login-title">Check your email 📬</div>
       <div class="login-sub" id="otpSubText">We sent a 6-digit code</div>
@@ -266,17 +211,21 @@ input,textarea{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══ MAIN APP ════════════════════════════════════════ -->
 <div class="screen" id="appScreen" style="flex-direction:row;align-items:stretch;justify-content:flex-start;">
   <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-  <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
-    <div class="sb-logo">
-      <div class="sb-logo-icon">✦</div>
-      <div><div class="sb-logo-name">NexusAI</div><div class="sb-logo-tag">ALL-IN-ONE ASSISTANT</div></div>
+    <div class="sb-top">
+      <div class="sb-logo-row">
+        <div class="sb-logo-icon">✦</div>
+        <div><div class="sb-logo-name">NexusAI</div><div class="sb-logo-tag">ALL-IN-ONE ASSISTANT</div></div>
+      </div>
+      <button class="new-chat-btn" onclick="newChat()">✦ New Chat</button>
     </div>
     <div class="sb-body">
+      <div class="hist-section" id="histSection" style="display:none;">
+        <div class="hist-label">Recent Chats</div>
+        <div id="histList"></div>
+      </div>
       <div class="sb-sec">
         <div class="sb-sec-label">General</div>
         <button class="tool-btn active" data-tool="chat" onclick="setTool(this)"><span class="ico">💬</span>Smart Chat</button>
@@ -285,7 +234,8 @@ input,textarea{font-family:inherit;}
         <div class="sb-sec-label">Create</div>
         <button class="tool-btn" data-tool="writer" onclick="setTool(this)"><span class="ico">✍️</span>AI Writer</button>
         <button class="tool-btn" data-tool="coder" onclick="setTool(this)"><span class="ico">💻</span>Code Helper</button>
-        <button class="tool-btn" data-tool="imgprompt" onclick="setTool(this)"><span class="ico">🎨</span>Image Prompts</button>
+        <button class="tool-btn" data-tool="imagegen" onclick="setTool(this)"><span class="ico">🎨</span>Image Generator</button>
+        <button class="tool-btn" data-tool="imgprompt" onclick="setTool(this)"><span class="ico">✨</span>Image Prompts</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Work & Business</div>
@@ -314,709 +264,386 @@ input,textarea{font-family:inherit;}
         <button class="tool-btn" data-tool="youtube" onclick="setTool(this)"><span class="ico">▶️</span>YouTube Helper</button>
       </div>
     </div>
-
-    <!-- USAGE BOX -->
-    <div class="usage-box" id="usageBox">
-      <div class="usage-plan">
-        <span class="usage-plan-name" id="planLabel" style="color:#a78bfa;">FREE PLAN</span>
-        <button class="upgrade-mini-btn" onclick="showUpgrade()">UPGRADE ↑</button>
-      </div>
-      <div class="usage-bar-row">
-        <span>Daily messages</span>
-        <span id="usageText" style="font-weight:700;">0/5</span>
-      </div>
-      <div class="usage-bar-bg">
-        <div class="usage-bar-fill" id="usageFill" style="width:0%;background:linear-gradient(90deg,#a78bfa,#7c6af7);"></div>
-      </div>
-      <div class="usage-warn" id="usageWarn" style="display:none;"></div>
+    <div class="free-badge">
+      <div class="free-badge-title">✅ 100% Free Forever</div>
+      <div class="free-badge-sub">Unlimited messages · All tools</div>
     </div>
-
-    <!-- USER FOOTER -->
     <div class="sb-footer">
       <div class="user-pill">
         <div class="user-av" id="userAv">U</div>
-        <div style="flex:1;min-width:0;">
-          <div class="user-name" id="userName">User</div>
-          <div class="user-plan-tag" id="userPlan">✦ free plan</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="user-name" id="userName">User</div><div class="user-plan-tag">✅ Free Forever</div></div>
         <button class="logout-btn" onclick="logout()" title="Logout">↩</button>
       </div>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <div class="topbar-left">
         <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-        <div>
-          <div class="tool-name" id="toolName">💬 Smart Chat</div>
-          <div class="tool-desc" id="toolDesc">Ask me anything — I'm here to help</div>
-        </div>
+        <div><div class="tool-name" id="toolName">💬 Smart Chat</div><div class="tool-desc" id="toolDesc">Ask me anything</div></div>
       </div>
       <div class="topbar-right">
-        <div class="remaining-pill" id="remainingPill">💬 5 left</div>
-        <div class="icon-btn" onclick="clearChat()" title="Clear chat">🗑️</div>
+        <div class="free-pill">✅ Unlimited Free</div>
+        <button class="icon-btn" onclick="clearChat()" title="Clear chat">🗑️</button>
       </div>
     </div>
-
     <div class="chat-area" id="chatArea">
       <div class="welcome-wrap" id="welcomeWrap">
-        <div class="welcome-icon" id="welcomeIcon">✦</div>
-        <div>
-          <div class="welcome-title" id="welcomeTitle">Hello! I'm NexusAI</div>
-          <div class="welcome-sub" id="welcomeSub">Your all-in-one AI assistant. Ask anything — I'm here for every niche!</div>
-        </div>
+        <div class="welcome-icon">✦</div>
+        <div><div class="welcome-title">Hello! I'm NexusAI 👋</div><div class="welcome-sub">Your all-in-one AI assistant — completely free!</div></div>
+        <div class="free-banner">🎉 Unlimited messages · All 20 tools · Image Generation · Voice Input</div>
         <div class="quick-grid" id="quickGrid"></div>
       </div>
     </div>
-
     <div class="input-wrap">
       <div class="input-inner">
         <div class="pills-row" id="pillsRow"></div>
-        <!-- Image Preview -->
         <div id="imgPreviewWrap" style="display:none;">
           <div class="img-preview-wrap">
-            <img id="imgPreview" class="img-preview" src="" alt="upload preview">
+            <img id="imgPreview" class="img-preview" src="" alt="preview">
             <button class="img-preview-remove" onclick="removeImage()">×</button>
           </div>
         </div>
-        <!-- Voice Status -->
         <div class="voice-status" id="voiceStatus">🎤 Listening... speak now</div>
-        <!-- Upgraded Input Box -->
         <div class="upgraded-input-box">
           <textarea id="msgInput" class="upgraded-textarea" placeholder="Ask anything... type, speak 🎤 or upload image 📷" rows="1"
             onkeydown="onKey(event)"
-            oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px'">
-          </textarea>
+            oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px'"></textarea>
           <div class="input-toolbar">
-            <!-- Image Upload -->
             <input type="file" id="imgUpload" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
             <div class="tool-action-btn" onclick="document.getElementById('imgUpload').click()" title="Upload Image">📷</div>
-            <!-- Voice Input -->
             <div class="tool-action-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">🎤</div>
-            <div style="flex:1;"></div>
-            <!-- Send Button -->
+            <button class="stop-btn" id="stopBtn" onclick="stopGen()">⏹ Stop</button>
             <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
           </div>
         </div>
-        <div class="input-hint">NexusAI · Voice 🎤 · Image 📷 · Powered by Groq AI (Free)</div>
+        <div class="input-hint">NexusAI · 100% Free · Voice 🎤 · Image 📷 · Image Gen 🎨 · Powered by Groq AI</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ══ UPGRADE MODAL ═══════════════════════════════════ -->
-<div class="modal-overlay" id="upgradeModal" onclick="hideUpgrade()">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <div>
-        <div style="font-size:22px;font-weight:800;letter-spacing:-.3px;">Upgrade Your Plan 🚀</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:4px;">Unlock more messages. Cancel anytime.</div>
-      </div>
-      <button class="modal-close" onclick="hideUpgrade()">×</button>
-    </div>
-    <div class="plan-grid">
-      <div class="plan-card" style="border:1.5px solid rgba(167,139,250,.3);">
-        <div class="plan-name" style="color:#a78bfa;">Free</div>
-        <div class="plan-price">₹0<span>/forever</span></div>
-        <div class="plan-features">
-          <div class="plan-feature"><span style="color:#a78bfa;">✓</span>5 messages per day</div>
-          <div class="plan-feature"><span style="color:#a78bfa;">✓</span>All 18 AI tools</div>
-          <div class="plan-feature"><span style="color:#a78bfa;">✓</span>Basic support</div>
-        </div>
-        <div class="plan-current" style="background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3);">✅ Current Plan</div>
-      </div>
-      <div class="plan-card" style="border:1.5px solid rgba(52,211,153,.4);box-shadow:0 0 24px rgba(52,211,153,.1);">
-        <div class="plan-badge" style="background:#34d399;">🔥 Most Popular</div>
-        <div class="plan-name" style="color:#34d399;">Pro</div>
-        <div class="plan-price">₹499<span>/month</span></div>
-        <div class="plan-features">
-          <div class="plan-feature"><span style="color:#34d399;">✓</span>500 messages per day</div>
-          <div class="plan-feature"><span style="color:#34d399;">✓</span>All 18 AI tools</div>
-          <div class="plan-feature"><span style="color:#34d399;">✓</span>Priority support</div>
-          <div class="plan-feature"><span style="color:#34d399;">✓</span>Faster responses</div>
-        </div>
-        <button class="plan-btn" style="background:linear-gradient(135deg,#34d399,#10b981);color:#000;" onclick="handleUpgrade('pro')">Upgrade to Pro</button>
-      </div>
-      <div class="plan-card" style="border:1.5px solid rgba(251,191,36,.4);">
-        <div class="plan-badge" style="background:#fbbf24;">⭐ Best Value</div>
-        <div class="plan-name" style="color:#fbbf24;">Premium</div>
-        <div class="plan-price">₹999<span>/month</span></div>
-        <div class="plan-features">
-          <div class="plan-feature"><span style="color:#fbbf24;">✓</span>Unlimited messages</div>
-          <div class="plan-feature"><span style="color:#fbbf24;">✓</span>All 18 AI tools</div>
-          <div class="plan-feature"><span style="color:#fbbf24;">✓</span>24/7 support</div>
-          <div class="plan-feature"><span style="color:#fbbf24;">✓</span>Fastest responses</div>
-          <div class="plan-feature"><span style="color:#fbbf24;">✓</span>Early access features</div>
-        </div>
-        <button class="plan-btn" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;" onclick="handleUpgrade('premium')">Get Premium</button>
-      </div>
-    </div>
-    <div style="margin-top:18px;padding:14px;background:var(--card);border-radius:12px;font-size:12px;color:var(--muted);line-height:1.7;">
-      💳 <strong style="color:var(--text);">Secure payments via Razorpay</strong> · Cancel anytime · 7-day money back guarantee
-    </div>
-  </div>
-</div>
-
-<!-- ══ LIMIT MODAL ══════════════════════════════════════ -->
-<div class="limit-modal" id="limitModal">
-  <div class="limit-box">
-    <div style="font-size:48px;margin-bottom:12px;">⚡</div>
-    <div style="font-size:20px;font-weight:800;margin-bottom:8px;">Daily Limit Reached!</div>
-    <div style="font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.6;">You've used all 5 free messages for today.<br>Upgrade to continue chatting!</div>
-    <button class="btn-primary" onclick="hideLimitModal();showUpgrade()">🚀 Upgrade Now</button>
-    <button style="width:100%;padding:11px;border-radius:12px;border:1px solid var(--border);background:none;color:var(--muted);font-size:14px;margin-top:8px;" onclick="hideLimitModal()">Maybe Later</button>
-    <div style="font-size:11px;color:var(--muted);margin-top:12px;">⏰ Limit resets every 24 hours</div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ╔══════════════════════════════════════════════════════╗
-// ║  IMPORTANT: Replace with your Supabase credentials  ║
-// ╚══════════════════════════════════════════════════════╝
+// ══ CONFIG — Apni keys yahan daalo ══
 const SUPABASE_URL  = 'https://ydmuksiqevdmylulgrdy.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkbXVrc2lxZXZkbXlsdWxncmR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMjM3NDAsImV4cCI6MjA5NDU5OTc0MH0.xrgx0OoYVQtzsdSFQAOEPZTQU3SaOPu6BfAHblJ2pgw';
 
-// ── Init Supabase ────────────────────────────────────────
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth: { autoRefreshToken:true, persistSession:true, detectSessionInUrl:true }
 });
 
-// ── Tools config ─────────────────────────────────────────
 const TOOLS = {
-  chat:      { name:'Smart Chat',        desc:'Ask me anything',                   icon:'✦',  pills:['Explain this','Give examples','Pros & Cons','Simplify'],          quick:[{i:'💡',t:'Explain a concept'},{i:'🔍',t:'Analyze something'},{i:'🗺️',t:'Plan something'},{i:'🎯',t:'Solve a problem'}],           sys:'You are NexusAI, a brilliant AI assistant. Be helpful, smart and friendly. Use markdown formatting.' },
-  writer:    { name:'AI Writer',         desc:'Blog posts, articles & more',        icon:'✍️', pills:['Blog post','Short story','Product desc','Ad copy'],              quick:[{i:'📝',t:'Write a blog post'},{i:'🎭',t:'Creative story'},{i:'📢',t:'Ad copy'},{i:'📖',t:'Content outline'}],                    sys:'You are NexusAI\'s expert writing assistant. Create engaging, well-structured content. Use headings and formatting.' },
-  coder:     { name:'Code Helper',       desc:'Write, debug & explain code',        icon:'💻', pills:['Write code','Debug this','Explain code','Optimize'],             quick:[{i:'🔧',t:'Fix my bug'},{i:'⚡',t:'Write a function'},{i:'📚',t:'Explain code'},{i:'🚀',t:'Best practices'}],                    sys:'You are NexusAI\'s expert coding assistant. Always use proper code blocks. Explain what the code does.' },
-  imgprompt: { name:'Image Prompts',     desc:'Perfect AI image prompts',           icon:'🎨', pills:['Realistic photo','Art style','Logo design','Product photo'],    quick:[{i:'📸',t:'Realistic photo'},{i:'🎨',t:'Art style'},{i:'🖼️',t:'Logo & branding'},{i:'🌄',t:'Scene & landscape'}],           sys:'You are NexusAI\'s expert AI image prompt engineer. Create detailed prompts for Midjourney, DALL-E, Stable Diffusion.' },
-  marketing: { name:'Marketing AI',      desc:'Ads, campaigns & brand content',     icon:'📢', pills:['Facebook Ad','Instagram post','Google Ad','Campaign idea'],      quick:[{i:'📱',t:'Social media ad'},{i:'🎯',t:'Target audience'},{i:'💬',t:'Brand voice'},{i:'📊',t:'Campaign strategy'}],           sys:'You are NexusAI\'s expert digital marketing assistant. Use proven frameworks like AIDA, PAS.' },
-  email:     { name:'Email Writer',      desc:'Professional emails in seconds',     icon:'📧', pills:['Cold email','Follow up','Proposal','Newsletter'],                quick:[{i:'🤝',t:'Business proposal'},{i:'📩',t:'Cold outreach'},{i:'💌',t:'Newsletter'},{i:'✅',t:'Follow-up email'}],                 sys:'You are NexusAI\'s expert email writing assistant. Write clear, professional emails with subject lines.' },
-  resume:    { name:'Resume Builder',    desc:'ATS-optimized resumes',              icon:'📄', pills:['Review resume','Cover letter','Improve bullet','Job match'],     quick:[{i:'📋',t:'Build my resume'},{i:'✉️',t:'Cover letter'},{i:'🔍',t:'Review & improve'},{i:'💼',t:'Job description match'}],      sys:'You are NexusAI\'s expert resume coach. Create ATS-optimized resumes with strong action verbs.' },
-  business:  { name:'Business Advisor',  desc:'Start, grow & scale',                icon:'🚀', pills:['Business idea','Pitch deck','Startup advice','Growth strategy'], quick:[{i:'💡',t:'Business ideas'},{i:'📊',t:'Business plan'},{i:'🎯',t:'Growth strategy'},{i:'💼',t:'Pitch help'}],                  sys:'You are NexusAI\'s expert business advisor. Give practical, actionable business advice.' },
-  study:     { name:'Study Helper',      desc:'Learn anything faster',              icon:'📚', pills:['Explain topic','Make quiz','Study plan','Flashcards'],           quick:[{i:'🧪',t:'Explain a concept'},{i:'❓',t:'Quiz me'},{i:'🗓️',t:'Study plan'},{i:'🃏',t:'Flashcards'}],                          sys:'You are NexusAI\'s expert study assistant. Explain concepts clearly with examples and analogies.' },
-  summarize: { name:'Summarizer',        desc:'Condense any text instantly',        icon:'📋', pills:['Key points','TL;DR','Bullet summary','Executive summary'],       quick:[{i:'📰',t:'Summarize article'},{i:'📑',t:'Key takeaways'},{i:'⚡',t:'TL;DR'},{i:'📊',t:'Executive summary'}],                sys:'You are NexusAI\'s expert summarization assistant. Extract key points accurately.' },
-  translate: { name:'Translator',        desc:'Translate to any language',          icon:'🌐', pills:['English','Hindi','Urdu','Arabic'],                              quick:[{i:'🇮🇳',t:'Hindi translation'},{i:'🇵🇰',t:'Urdu translation'},{i:'🇺🇸',t:'English translation'},{i:'🌍',t:'Any language'}],    sys:'You are NexusAI\'s expert translator. Accurately translate maintaining tone and meaning.' },
-  research:  { name:'Research AI',       desc:'Deep research & analysis',           icon:'🔬', pills:['Topic overview','Compare options','Find stats','Fact check'],    quick:[{i:'📊',t:'Topic deep-dive'},{i:'⚖️',t:'Compare & contrast'},{i:'📈',t:'Data & statistics'},{i:'✅',t:'Fact check'}],         sys:'You are NexusAI\'s expert research assistant. Present balanced, well-structured information.' },
-  health:    { name:'Health & Fitness',  desc:'Wellness, workouts & nutrition',     icon:'💪', pills:['Workout plan','Diet plan','Mental health','Sleep tips'],         quick:[{i:'🏋️',t:'Workout plan'},{i:'🥗',t:'Meal plan'},{i:'🧘',t:'Mental wellness'},{i:'💊',t:'Health Q&A'}],                    sys:'You are NexusAI\'s health assistant. Provide wellness guidance. Always recommend consulting a doctor.' },
-  recipe:    { name:'Recipe Creator',    desc:'Recipes for every taste',            icon:'🍳', pills:['Quick recipe','Healthy meal','Indian cuisine','No-cook'],        quick:[{i:'🍛',t:'Indian recipes'},{i:'⚡',t:'Quick meal'},{i:'🥗',t:'Healthy option'},{i:'🎂',t:'Dessert & baking'}],             sys:'You are NexusAI\'s expert chef. Create detailed recipes with ingredients and step-by-step instructions.' },
-  travel:    { name:'Travel Planner',    desc:'Plan your perfect trip',             icon:'✈️', pills:['Day itinerary','Budget trip','Hotel picks','Packing list'],     quick:[{i:'🗺️',t:'Trip itinerary'},{i:'💰',t:'Budget breakdown'},{i:'🏨',t:'Where to stay'},{i:'🍽️',t:'Local food guide'}],        sys:'You are NexusAI\'s expert travel planner. Create detailed itineraries and local tips.' },
-  finance:   { name:'Finance Guide',     desc:'Money management & investments',     icon:'💰', pills:['Save money','Investment basics','Budget plan','Side income'],    quick:[{i:'📈',t:'Investment basics'},{i:'📊',t:'Budget planning'},{i:'💸',t:'Save money tips'},{i:'🏦',t:'Side income ideas'}],   sys:'You are NexusAI\'s finance guide. Cover Indian financial context — SIP, PPF, mutual funds.' },
-  social:    { name:'Caption Generator', desc:'Viral captions for every platform',  icon:'📱', pills:['Instagram','Twitter/X','LinkedIn','YouTube'],                   quick:[{i:'📸',t:'Instagram caption'},{i:'🐦',t:'Twitter/X thread'},{i:'💼',t:'LinkedIn post'},{i:'#️⃣',t:'Hashtag strategy'}],      sys:'You are NexusAI\'s social media expert. Generate engaging captions with hashtags.' },
-  youtube:   { name:'YouTube Helper',    desc:'Grow your YouTube channel',          icon:'▶️', pills:['Video idea','Script','SEO tags','Thumbnail ideas'],            quick:[{i:'💡',t:'Video ideas'},{i:'🎬',t:'Write script'},{i:'🔑',t:'SEO & keywords'},{i:'📌',t:'Thumbnail ideas'}],              sys:'You are NexusAI\'s YouTube growth strategist. Help with scripts, SEO, and channel strategy.' },
+  chat:      { name:'Smart Chat',       desc:'Ask me anything — I\'m here to help', icon:'✦',  pills:['Explain this','Give examples','Pros & Cons','Simplify'],       quick:[{i:'💡',t:'Explain a concept'},{i:'🔍',t:'Analyze something'},{i:'🗺️',t:'Plan something'},{i:'🎯',t:'Solve a problem'}],      sys:'You are NexusAI, a brilliant AI assistant. Be helpful, smart and friendly. Use markdown formatting with headers, bold text, and code blocks where needed.' },
+  writer:    { name:'AI Writer',        desc:'Blog posts, articles & more',          icon:'✍️', pills:['Blog post','Short story','Product desc','Ad copy'],          quick:[{i:'📝',t:'Write a blog post'},{i:'🎭',t:'Creative story'},{i:'📢',t:'Ad copy'},{i:'📖',t:'Content outline'}],               sys:'You are NexusAI expert writing assistant. Create engaging, well-structured content.' },
+  coder:     { name:'Code Helper',      desc:'Write, debug & explain code',          icon:'💻', pills:['Write code','Debug this','Explain code','Optimize'],         quick:[{i:'🔧',t:'Fix my bug'},{i:'⚡',t:'Write a function'},{i:'📚',t:'Explain code'},{i:'🚀',t:'Best practices'}],                sys:'You are NexusAI expert coding assistant. Always use proper code blocks with language specified.' },
+  imagegen:  { name:'Image Generator',  desc:'Create AI images — FREE, no limits!',  icon:'🎨', pills:['Realistic photo','Digital art','Anime style','Logo'],       quick:[{i:'📸',t:'Realistic portrait'},{i:'🏙️',t:'Beautiful landscape'},{i:'🎨',t:'Abstract art'},{i:'🤖',t:'Sci-fi scene'}],     sys:'You are NexusAI image generation assistant.' },
+  imgprompt: { name:'Image Prompts',    desc:'Perfect AI image prompts',             icon:'✨', pills:['Realistic photo','Art style','Logo design','Product photo'], quick:[{i:'📸',t:'Realistic photo'},{i:'🎨',t:'Art style'},{i:'🖼️',t:'Logo & branding'},{i:'🌄',t:'Landscape'}],             sys:'You are NexusAI expert AI image prompt engineer for Midjourney, DALL-E, Stable Diffusion.' },
+  marketing: { name:'Marketing AI',     desc:'Ads, campaigns & brand content',       icon:'📢', pills:['Facebook Ad','Instagram post','Google Ad','Campaign'],      quick:[{i:'📱',t:'Social media ad'},{i:'🎯',t:'Target audience'},{i:'💬',t:'Brand voice'},{i:'📊',t:'Campaign strategy'}],   sys:'You are NexusAI expert digital marketing assistant. Use proven frameworks like AIDA, PAS.' },
+  email:     { name:'Email Writer',     desc:'Professional emails in seconds',       icon:'📧', pills:['Cold email','Follow up','Proposal','Newsletter'],            quick:[{i:'🤝',t:'Business proposal'},{i:'📩',t:'Cold outreach'},{i:'💌',t:'Newsletter'},{i:'✅',t:'Follow-up'}],             sys:'You are NexusAI expert email writing assistant. Write clear, professional emails.' },
+  resume:    { name:'Resume Builder',   desc:'ATS-optimized resumes & cover letters',icon:'📄', pills:['Review resume','Cover letter','Improve bullets','Job match'],quick:[{i:'📋',t:'Build my resume'},{i:'✉️',t:'Cover letter'},{i:'🔍',t:'Review & improve'},{i:'💼',t:'Job match'}],         sys:'You are NexusAI expert resume coach. Create ATS-optimized resumes with strong action verbs.' },
+  business:  { name:'Business Advisor', desc:'Start, grow & scale your business',    icon:'🚀', pills:['Business idea','Pitch deck','Startup advice','Growth'],     quick:[{i:'💡',t:'Business ideas'},{i:'📊',t:'Business plan'},{i:'🎯',t:'Growth strategy'},{i:'💼',t:'Pitch help'}],       sys:'You are NexusAI expert business advisor. Give practical, actionable business advice.' },
+  study:     { name:'Study Helper',     desc:'Learn anything faster',                icon:'📚', pills:['Explain topic','Make quiz','Study plan','Flashcards'],       quick:[{i:'🧪',t:'Explain a concept'},{i:'❓',t:'Quiz me'},{i:'🗓️',t:'Study plan'},{i:'🃏',t:'Flashcards'}],               sys:'You are NexusAI expert study assistant. Explain concepts clearly with examples.' },
+  summarize: { name:'Summarizer',       desc:'Condense any text instantly',          icon:'📋', pills:['Key points','TL;DR','Bullet summary','Executive summary'],  quick:[{i:'📰',t:'Summarize article'},{i:'📑',t:'Key takeaways'},{i:'⚡',t:'TL;DR'},{i:'📊',t:'Executive summary'}],   sys:'You are NexusAI expert summarization assistant. Extract key points accurately.' },
+  translate: { name:'Translator',       desc:'Translate to any language',            icon:'🌐', pills:['English','Hindi','Urdu','Arabic'],                          quick:[{i:'🇮🇳',t:'Hindi'},{i:'🇵🇰',t:'Urdu'},{i:'🇺🇸',t:'English'},{i:'🌍',t:'Any language'}],                           sys:'You are NexusAI expert translator. Accurately translate maintaining tone and meaning.' },
+  research:  { name:'Research AI',      desc:'Deep research & analysis',             icon:'🔬', pills:['Topic overview','Compare','Find stats','Fact check'],       quick:[{i:'📊',t:'Topic deep-dive'},{i:'⚖️',t:'Compare & contrast'},{i:'📈',t:'Statistics'},{i:'✅',t:'Fact check'}],    sys:'You are NexusAI expert research assistant. Present balanced, structured information.' },
+  health:    { name:'Health & Fitness', desc:'Wellness, workouts & nutrition',       icon:'💪', pills:['Workout plan','Diet plan','Mental health','Sleep tips'],     quick:[{i:'🏋️',t:'Workout plan'},{i:'🥗',t:'Meal plan'},{i:'🧘',t:'Mental wellness'},{i:'💊',t:'Health Q&A'}],          sys:'You are NexusAI health assistant. Provide wellness guidance. Always recommend consulting a doctor.' },
+  recipe:    { name:'Recipe Creator',   desc:'Recipes for every taste',              icon:'🍳', pills:['Quick recipe','Healthy meal','Indian cuisine','No-cook'],    quick:[{i:'🍛',t:'Indian recipes'},{i:'⚡',t:'Quick meal'},{i:'🥗',t:'Healthy option'},{i:'🎂',t:'Dessert'}],         sys:'You are NexusAI expert chef. Create detailed recipes with ingredients and steps.' },
+  travel:    { name:'Travel Planner',   desc:'Plan your perfect trip',               icon:'✈️', pills:['Day itinerary','Budget trip','Hotel picks','Packing list'], quick:[{i:'🗺️',t:'Trip itinerary'},{i:'💰',t:'Budget breakdown'},{i:'🏨',t:'Where to stay'},{i:'🍽️',t:'Food guide'}],  sys:'You are NexusAI expert travel planner. Create detailed itineraries and local tips.' },
+  finance:   { name:'Finance Guide',    desc:'Money management & investments',       icon:'💰', pills:['Save money','Investment','Budget plan','Side income'],       quick:[{i:'📈',t:'Investment basics'},{i:'📊',t:'Budget planning'},{i:'💸',t:'Save money'},{i:'🏦',t:'Side income'}],   sys:'You are NexusAI finance guide covering Indian context — SIP, PPF, mutual funds.' },
+  social:    { name:'Caption Generator',desc:'Viral captions for every platform',    icon:'📱', pills:['Instagram','Twitter/X','LinkedIn','YouTube'],               quick:[{i:'📸',t:'Instagram caption'},{i:'🐦',t:'Twitter/X thread'},{i:'💼',t:'LinkedIn post'},{i:'#️⃣',t:'Hashtags'}],  sys:'You are NexusAI social media expert. Generate engaging captions with hashtags.' },
+  youtube:   { name:'YouTube Helper',   desc:'Grow your YouTube channel',            icon:'▶️', pills:['Video idea','Script','SEO tags','Thumbnail'],              quick:[{i:'💡',t:'Video ideas'},{i:'🎬',t:'Write script'},{i:'🔑',t:'SEO & keywords'},{i:'📌',t:'Thumbnail ideas'}],    sys:'You are NexusAI YouTube growth strategist. Help with scripts, SEO, and channel growth.' },
 };
 
-// ── State ────────────────────────────────────────────────
-let currentTool = 'chat';
-let messages    = [];
-let busy        = false;
-let currentUser = null;
-let userPlan    = 'free';
-let dailyUsed   = 0;
-const DAILY_LIMITS = { free:5, pro:500, premium:999999 };
+let currentTool='chat', messages=[], busy=false, currentUser=null;
+let abortCtrl=null, chatHistory=[], activeChatId=null, codeBlockId=0;
 
-// ── Screen manager ───────────────────────────────────────
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('show'));
-  document.getElementById(id).classList.add('show');
-}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));document.getElementById(id).classList.add('show');}
 
-// ── INIT ─────────────────────────────────────────────────
-window.addEventListener('load', async () => {
-  setTimeout(async () => {
-    // Check for existing session
-    const { data: { session } } = await sb.auth.getSession();
-    if (session?.user) {
-      currentUser = session.user;
-      await loadUserData();
-      initApp();
-      showScreen('appScreen');
-    } else {
-      showScreen('loginScreen');
-    }
-  }, 300);
-
-  // Listen for auth changes
-  sb.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session?.user) {
-      currentUser = session.user;
-      await loadUserData();
-      initApp();
-      showScreen('appScreen');
-    } else if (event === 'SIGNED_OUT') {
-      showScreen('loginScreen');
-    }
+window.addEventListener('load',async()=>{
+  setTimeout(async()=>{
+    const{data:{session}}=await sb.auth.getSession();
+    if(session?.user){currentUser=session.user;loadUserUI();loadHistory();initApp();showScreen('appScreen');}
+    else showScreen('loginScreen');
+  },2300);
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==='SIGNED_IN'&&session?.user){currentUser=session.user;loadUserUI();loadHistory();initApp();showScreen('appScreen');}
+    else if(event==='SIGNED_OUT') showScreen('loginScreen');
   });
 });
 
-// ── Load user data from Supabase ─────────────────────────
-async function loadUserData() {
-  if (!currentUser) return;
-  const today = new Date().toISOString().split('T')[0];
-
-  // Get or create user record
-  let { data: user } = await sb.from('users').select('*').eq('id', currentUser.id).single();
-  if (!user) {
-    // Auto-create (trigger should handle this, fallback here)
-    await sb.from('users').upsert({ id: currentUser.id, email: currentUser.email, full_name: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0], plan:'free' });
-    user = { plan:'free', full_name: currentUser.email.split('@')[0] };
-  }
-  userPlan = user?.plan || 'free';
-
-  // Get usage
-  let { data: usage } = await sb.from('usage_tracking').select('*').eq('user_id', currentUser.id).single();
-  if (!usage) {
-    await sb.from('usage_tracking').upsert({ user_id: currentUser.id, daily_message_count:0, total_messages:0, last_reset_date:today });
-    dailyUsed = 0;
-  } else {
-    // Reset if new day
-    if (usage.last_reset_date !== today) {
-      await sb.from('usage_tracking').update({ daily_message_count:0, last_reset_date:today }).eq('user_id', currentUser.id);
-      dailyUsed = 0;
-    } else {
-      dailyUsed = usage.daily_message_count || 0;
-    }
-  }
-
-  // Update UI
-  const name = user?.full_name || currentUser.email.split('@')[0];
-  document.getElementById('userAv').textContent   = name[0].toUpperCase();
-  document.getElementById('userName').textContent  = name;
-  document.getElementById('userPlan').textContent  = '✦ ' + userPlan + ' plan';
-  updateUsageUI();
+function loadUserUI(){
+  if(!currentUser)return;
+  const name=currentUser.user_metadata?.full_name||currentUser.email.split('@')[0];
+  document.getElementById('userAv').textContent=name[0].toUpperCase();
+  document.getElementById('userName').textContent=name;
+  // Track usage in supabase (no limit check)
+  const today=new Date().toISOString().split('T')[0];
+  sb.from('users').upsert({id:currentUser.id,email:currentUser.email,full_name:name,plan:'free'},{onConflict:'id'}).then(()=>{});
 }
 
-function updateUsageUI() {
-  const limit     = DAILY_LIMITS[userPlan] || 5;
-  const remaining = Math.max(0, limit - dailyUsed);
-  const pct       = userPlan === 'premium' ? 100 : Math.min(100, (dailyUsed / limit) * 100);
-  const isLow     = userPlan !== 'premium' && remaining <= 1;
-
-  document.getElementById('usageText').textContent  = userPlan === 'premium' ? '∞ / ∞' : `${dailyUsed}/${limit}`;
-  document.getElementById('usageFill').style.width  = pct + '%';
-  document.getElementById('usageFill').style.background = isLow
-    ? 'linear-gradient(90deg,#f87171,#ef4444)'
-    : 'linear-gradient(90deg,#a78bfa,#7c6af7)';
-  document.getElementById('remainingPill').textContent = userPlan === 'premium' ? '💬 ∞ left' : `💬 ${remaining} left`;
-  document.getElementById('planLabel').textContent     = userPlan.toUpperCase() + ' PLAN';
-
-  const warn = document.getElementById('usageWarn');
-  if (isLow && userPlan !== 'premium') {
-    warn.style.display  = 'block';
-    warn.textContent    = remaining === 0 ? '⚠️ Limit reached! Upgrade now.' : `⚡ Only ${remaining} message left!`;
-  } else {
-    warn.style.display  = 'none';
-  }
+// HISTORY
+function loadHistory(){
+  try{const s=localStorage.getItem('nxh_'+currentUser.id);chatHistory=s?JSON.parse(s):[];}catch(e){chatHistory=[];}
+  renderHistory();
 }
-
-// ── LOGIN FUNCTIONS ──────────────────────────────────────
-async function sendOTP() {
-  const email = document.getElementById('emailInput').value.trim();
-  if (!email) return showLoginAlert('loginAlert','err','Please enter your email!');
-  const btn = document.getElementById('sendOtpBtn');
-  btn.disabled = true; btn.textContent = 'Sending...';
-  try {
-    const { error } = await sb.auth.signInWithOtp({ email, options:{ shouldCreateUser:true, emailRedirectTo: null } });
-    if (error) throw error;
-    document.getElementById('otpSubText').textContent = `We sent a 6-digit code to ${email}`;
-    document.getElementById('emailStep').style.display = 'none';
-    document.getElementById('otpStep').style.display   = 'block';
-    showLoginAlert('otpAlert','ok', `✅ OTP sent to ${email}! Check your inbox.`);
-  } catch(e) {
-    showLoginAlert('loginAlert','err', e.message || 'Failed to send OTP');
-    btn.disabled = false; btn.textContent = '📧 Send OTP Code';
-  }
+function saveHistory(){
+  if(chatHistory.length>30)chatHistory=chatHistory.slice(-30);
+  try{localStorage.setItem('nxh_'+currentUser.id,JSON.stringify(chatHistory));}catch(e){}
+  renderHistory();
 }
-
-async function verifyOTP() {
-  const email = document.getElementById('emailInput').value.trim();
-  const token = document.getElementById('otpInput').value.trim();
-  if (token.length < 6) return showLoginAlert('otpAlert','err','Please enter the 6-digit code');
-  const btn = document.getElementById('verifyBtn');
-  btn.disabled = true; btn.textContent = 'Verifying...';
-  try {
-    const { error } = await sb.auth.verifyOtp({ email, token, type:'email' });
-    if (error) throw error;
-    // onAuthStateChange will handle redirect
-  } catch(e) {
-    showLoginAlert('otpAlert','err','Invalid OTP. Please try again.');
-    btn.disabled = false; btn.textContent = '✅ Verify & Login';
-  }
+function renderHistory(){
+  const sec=document.getElementById('histSection'),list=document.getElementById('histList');
+  if(!chatHistory.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=chatHistory.slice().reverse().map(h=>
+    `<button class="hist-item${h.id===activeChatId?' active-h':''}" onclick="loadChat('${h.id}')">
+      <span style="font-size:12px;flex-shrink:0;">${TOOLS[h.tool]?.icon||'💬'}</span>
+      <span class="hist-title">${esc(h.title)}</span>
+      <button class="hist-del" onclick="event.stopPropagation();deleteChat('${h.id}')">✕</button>
+    </button>`
+  ).join('');
 }
-
-async function googleLogin() {
-  try {
-    await sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
-  } catch(e) {
-    showLoginAlert('loginAlert','err', e.message || 'Google login failed');
-  }
+function newChat(){saveCurrentChat();messages=[];activeChatId=null;clearChatArea();renderHistory();if(window.innerWidth<650)closeSidebar();}
+function saveCurrentChat(){
+  if(!messages.length)return;
+  const first=messages[0];
+  const title=(typeof first.content==='string'?first.content:(first.content?.find?.(c=>c.type==='text')?.text||'Chat')).slice(0,45);
+  if(activeChatId){const idx=chatHistory.findIndex(h=>h.id===activeChatId);if(idx>-1){chatHistory[idx].messages=[...messages];chatHistory[idx].title=title;}}
+  else{activeChatId='c'+Date.now();chatHistory.push({id:activeChatId,title,tool:currentTool,messages:[...messages]});}
+  saveHistory();
 }
-
-function backToEmail() {
-  document.getElementById('otpStep').style.display   = 'none';
-  document.getElementById('emailStep').style.display = 'block';
-  document.getElementById('otpInput').value = '';
-  document.getElementById('loginAlert').innerHTML = '';
-}
-
-function showLoginAlert(id, type, msg) {
-  const el = document.getElementById(id);
-  el.innerHTML = `<div class="alert-${type === 'err' ? 'err' : 'ok'}">${msg}</div>`;
-}
-
-async function logout() {
-  await sb.auth.signOut();
-  messages = []; currentUser = null; dailyUsed = 0;
-  showScreen('loginScreen');
-}
-
-// ── APP INIT ─────────────────────────────────────────────
-function initApp() {
-  setToolUI(currentTool);
-}
-
-// ── TOOL MANAGEMENT ──────────────────────────────────────
-function setTool(btn) {
-  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentTool = btn.dataset.tool;
-  messages    = [];
-  setToolUI(currentTool);
+function loadChat(id){
+  const chat=chatHistory.find(h=>h.id===id);if(!chat)return;
+  saveCurrentChat();activeChatId=id;messages=[...chat.messages];currentTool=chat.tool||'chat';
+  document.querySelectorAll('.tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===currentTool));
   clearChatArea();
-  if (window.innerWidth < 650) closeSidebar();
+  messages.forEach(m=>{
+    if(m.role==='user'){const t=typeof m.content==='string'?m.content:(m.content?.find?.(c=>c.type==='text')?.text||'');appendMsg('user',esc(t));}
+    else if(m.role==='assistant')appendMsg('ai',mdFormat(String(m.content||'')));
+  });
+  renderHistory();if(window.innerWidth<650)closeSidebar();
+}
+function deleteChat(id){
+  chatHistory=chatHistory.filter(h=>h.id!==id);
+  if(activeChatId===id){activeChatId=null;messages=[];clearChatArea();}
+  saveHistory();showToast('🗑️ Chat deleted');
 }
 
-function setToolUI(key) {
-  const t = TOOLS[key];
-  document.getElementById('toolName').textContent  = t.icon + ' ' + t.name;
-  document.getElementById('toolDesc').textContent  = t.desc;
-  document.getElementById('welcomeIcon').textContent = t.icon;
-  document.getElementById('welcomeTitle').textContent = 'Hello! I\'m ' + t.name;
-  document.getElementById('welcomeSub').textContent   = t.desc;
-
-  // Quick cards
-  const grid = document.getElementById('quickGrid');
-  grid.innerHTML = t.quick.map(q =>
-    `<div class="quick-card" onclick="sendMsg('${q.t}')"><div class="qc-icon">${q.i}</div><div class="qc-title">${q.t}</div></div>`
-  ).join('');
-
-  // Pills
-  const pills = document.getElementById('pillsRow');
-  pills.innerHTML = t.pills.map(p =>
-    `<div class="pill" onclick="usePill('${p}')">${p}</div>`
-  ).join('');
+// LOGIN
+async function sendOTP(){
+  const email=document.getElementById('emailInput').value.trim();
+  if(!email)return showLoginAlert('loginAlert','err','Please enter your email!');
+  const btn=document.getElementById('sendOtpBtn');btn.disabled=true;btn.textContent='Sending...';
+  try{
+    const{error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
+    if(error)throw error;
+    document.getElementById('otpSubText').textContent=`Code sent to ${email}`;
+    document.getElementById('emailStep').style.display='none';
+    document.getElementById('otpStep').style.display='block';
+    showLoginAlert('otpAlert','ok',`✅ OTP sent to ${email}!`);
+  }catch(e){showLoginAlert('loginAlert','err',e.message||'Failed to send OTP');btn.disabled=false;btn.textContent='📧 Send OTP Code';}
 }
-
-function usePill(p) {
-  const el = document.getElementById('msgInput');
-  el.value = el.value.trim() ? el.value.trim() + ' - ' + p : p + ': ';
-  el.focus();
+async function verifyOTP(){
+  const email=document.getElementById('emailInput').value.trim(),token=document.getElementById('otpInput').value.trim();
+  if(token.length<6)return showLoginAlert('otpAlert','err','Please enter the 6-digit code');
+  const btn=document.getElementById('verifyBtn');btn.disabled=true;btn.textContent='Verifying...';
+  try{const{error}=await sb.auth.verifyOtp({email,token,type:'email'});if(error)throw error;}
+  catch(e){showLoginAlert('otpAlert','err','Invalid OTP. Try again.');btn.disabled=false;btn.textContent='✅ Verify & Login';}
 }
+async function googleLogin(){
+  try{await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
+  catch(e){showLoginAlert('loginAlert','err',e.message||'Google login failed');}
+}
+function backToEmail(){document.getElementById('otpStep').style.display='none';document.getElementById('emailStep').style.display='block';document.getElementById('otpInput').value='';document.getElementById('loginAlert').innerHTML='';}
+function showLoginAlert(id,type,msg){document.getElementById(id).innerHTML=`<div class="alert-${type==='err'?'err':'ok'}">${msg}</div>`;}
+async function logout(){saveCurrentChat();await sb.auth.signOut();messages=[];currentUser=null;chatHistory=[];activeChatId=null;showScreen('loginScreen');}
 
-// ── CHAT ─────────────────────────────────────────────────
-function clearChatArea() {
-  const area = document.getElementById('chatArea');
-  area.innerHTML = '';
-  const welcome = document.createElement('div');
-  welcome.className = 'welcome-wrap'; welcome.id = 'welcomeWrap';
-  const t = TOOLS[currentTool];
-  welcome.innerHTML = `
-    <div class="welcome-icon" id="welcomeIcon">${t.icon}</div>
-    <div>
-      <div class="welcome-title">${t.name}</div>
-      <div class="welcome-sub">${t.desc}</div>
-    </div>
-    <div class="quick-grid" id="quickGrid"></div>`;
-  area.appendChild(welcome);
+function initApp(){setToolUI(currentTool);}
+function setTool(btn){
+  saveCurrentChat();document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');currentTool=btn.dataset.tool;messages=[];activeChatId=null;
+  setToolUI(currentTool);clearChatArea();if(window.innerWidth<650)closeSidebar();
+}
+function setToolUI(key){
+  const t=TOOLS[key];
+  document.getElementById('toolName').textContent=t.icon+' '+t.name;
+  document.getElementById('toolDesc').textContent=t.desc;
+  const grid=document.getElementById('quickGrid');
+  if(grid)grid.innerHTML=t.quick.map(q=>`<div class="quick-card" onclick="sendMsg('${q.t}')"><div class="qc-icon">${q.i}</div><div class="qc-title">${q.t}</div></div>`).join('');
+  document.getElementById('pillsRow').innerHTML=t.pills.map(p=>`<div class="pill" onclick="usePill('${p}')">${p}</div>`).join('');
+}
+function usePill(p){const el=document.getElementById('msgInput');el.value=el.value.trim()?el.value.trim()+' — '+p:p+': ';el.focus();}
+
+function clearChatArea(){
+  const t=TOOLS[currentTool];
+  document.getElementById('chatArea').innerHTML=`<div class="welcome-wrap" id="welcomeWrap">
+    <div class="welcome-icon">${t.icon}</div>
+    <div><div class="welcome-title">${t.name}</div><div class="welcome-sub">${t.desc}</div></div>
+    <div class="free-banner">🎉 Unlimited Free · No limits ever</div>
+    <div class="quick-grid" id="quickGrid"></div></div>`;
   setToolUI(currentTool);
 }
-
-function hideWelcome() {
-  const w = document.getElementById('welcomeWrap');
-  if (w) w.style.display = 'none';
-}
-
-function appendMsg(role, html) {
+function hideWelcome(){const w=document.getElementById('welcomeWrap');if(w)w.style.display='none';}
+function appendMsg(role,html){
   hideWelcome();
-  const area = document.getElementById('chatArea');
-  const id   = 'msg' + Date.now();
-  const div  = document.createElement('div');
-  div.className = 'msg ' + role; div.id = id;
-  const t = TOOLS[currentTool];
-  if (role === 'ai') {
-    div.innerHTML = `
-      <div class="msg-av">✦</div>
-      <div class="msg-body">
-        <div class="msg-who">NexusAI <span class="msg-tag">${t.name}</span></div>
-        <div class="msg-bub" id="${id}b">${html}</div>
-        <div class="msg-actions">
-          <button class="act-btn" onclick="copyMsg('${id}b')">📋 Copy</button>
-        </div>
-      </div>`;
-  } else {
-    div.innerHTML = `
-      <div class="msg-av">👤</div>
-      <div class="msg-body">
-        <div class="msg-who">You</div>
-        <div class="msg-bub">${esc(html)}</div>
-      </div>`;
+  const area=document.getElementById('chatArea'),id='m'+Date.now()+Math.random().toString(36).slice(2,6);
+  const div=document.createElement('div');div.className='msg '+role;div.id=id;
+  if(role==='ai'){
+    div.innerHTML=`<div class="msg-av">✦</div><div class="msg-body">
+      <div class="msg-who">NexusAI <span class="msg-tag">${TOOLS[currentTool].name}</span></div>
+      <div class="msg-bub" id="${id}b">${html}</div>
+      <div class="msg-actions">
+        <button class="act-btn" onclick="copyMsg('${id}b')">📋 Copy</button>
+        <button class="act-btn" onclick="regenMsg()">🔄 Regenerate</button>
+      </div></div>`;
+  }else{
+    div.innerHTML=`<div class="msg-av">👤</div><div class="msg-body"><div class="msg-who">You</div><div class="msg-bub">${html}</div></div>`;
   }
-  area.appendChild(div);
-  area.scrollTop = area.scrollHeight;
-  return id;
+  area.appendChild(div);area.scrollTop=area.scrollHeight;return id;
 }
-
-function addTyping() {
-  hideWelcome();
-  const area = document.getElementById('chatArea');
-  const div  = document.createElement('div');
-  div.className = 'msg ai'; div.id = 'typingMsg';
-  div.innerHTML = `<div class="msg-av">✦</div><div class="msg-body"><div class="msg-who">NexusAI</div><div class="msg-bub"><div class="typing-bub"><span></span><span></span><span></span></div></div></div>`;
-  area.appendChild(div);
-  area.scrollTop = area.scrollHeight;
+function addTyping(){
+  hideWelcome();const area=document.getElementById('chatArea');
+  const div=document.createElement('div');div.className='msg ai';div.id='typingMsg';
+  div.innerHTML='<div class="msg-av">✦</div><div class="msg-body"><div class="msg-who">NexusAI</div><div class="msg-bub"><div class="typing-bub"><span></span><span></span><span></span></div></div></div>';
+  area.appendChild(div);area.scrollTop=area.scrollHeight;
 }
+function removeTyping(){const t=document.getElementById('typingMsg');if(t)t.remove();}
 
-function removeTyping() {
-  const t = document.getElementById('typingMsg');
-  if (t) t.remove();
-}
-
-
-// ══════════════════════════════════════════════
 // IMAGE UPLOAD
-// ══════════════════════════════════════════════
-let uploadedImageBase64 = null;
-let uploadedImageType   = null;
-
-function handleImageUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (!file.type.startsWith('image/')) { showToast('❌ Only images allowed!'); return; }
-  if (file.size > 5 * 1024 * 1024) { showToast('❌ Image too large! Max 5MB'); return; }
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    uploadedImageBase64 = e.target.result.split(',')[1];
-    uploadedImageType   = file.type;
-    document.getElementById('imgPreview').src = e.target.result;
-    document.getElementById('imgPreviewWrap').style.display = 'block';
-    showToast('📷 Image ready! Type your question and send.');
+let uploadedImageBase64=null,uploadedImageType=null;
+function handleImageUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  if(!file.type.startsWith('image/')){showToast('❌ Only images allowed!');return;}
+  if(file.size>5*1024*1024){showToast('❌ Max 5MB!');return;}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    uploadedImageBase64=ev.target.result.split(',')[1];uploadedImageType=file.type;
+    document.getElementById('imgPreview').src=ev.target.result;
+    document.getElementById('imgPreviewWrap').style.display='block';
+    showToast('📷 Image ready!');
   };
-  reader.readAsDataURL(file);
-  event.target.value = '';
+  reader.readAsDataURL(file);e.target.value='';
 }
+function removeImage(){uploadedImageBase64=null;uploadedImageType=null;document.getElementById('imgPreviewWrap').style.display='none';document.getElementById('imgPreview').src='';}
 
-function removeImage() {
-  uploadedImageBase64 = null;
-  uploadedImageType   = null;
-  document.getElementById('imgPreviewWrap').style.display = 'none';
-  document.getElementById('imgPreview').src = '';
+// VOICE
+let recognition=null,isListening=false;
+function toggleVoice(){
+  if(!('webkitSpeechRecognition'in window)&&!('SpeechRecognition'in window)){showToast('❌ Voice not supported. Use Chrome!');return;}
+  isListening?stopVoice():startVoice();
 }
-
-// ══════════════════════════════════════════════
-// VOICE INPUT
-// ══════════════════════════════════════════════
-let recognition = null;
-let isListening = false;
-
-function toggleVoice() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    showToast('❌ Voice not supported in this browser. Use Chrome!');
-    return;
-  }
-  if (isListening) { stopVoice(); return; }
-  startVoice();
-}
-
-function startVoice() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.lang = 'hi-IN';
-  recognition.continuous = false;
-  recognition.interimResults = true;
-
-  recognition.onstart = () => {
-    isListening = true;
-    document.getElementById('micBtn').classList.add('recording');
-    document.getElementById('voiceStatus').classList.add('show');
-  };
-
-  recognition.onresult = (e) => {
-    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
-    document.getElementById('msgInput').value = transcript;
-  };
-
-  recognition.onend = () => { stopVoice(); };
-  recognition.onerror = () => { stopVoice(); showToast('❌ Voice error. Try again!'); };
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;recognition=new SR();
+  recognition.lang='hi-IN';recognition.continuous=false;recognition.interimResults=true;
+  recognition.onstart=()=>{isListening=true;document.getElementById('micBtn').classList.add('recording');document.getElementById('voiceStatus').classList.add('show');};
+  recognition.onresult=(e)=>{document.getElementById('msgInput').value=Array.from(e.results).map(r=>r[0].transcript).join('');};
+  recognition.onend=()=>stopVoice();recognition.onerror=()=>{stopVoice();showToast('❌ Voice error!');};
   recognition.start();
 }
+function stopVoice(){isListening=false;document.getElementById('micBtn').classList.remove('recording');document.getElementById('voiceStatus').classList.remove('show');if(recognition){try{recognition.stop();}catch(e){}}}
 
-function stopVoice() {
-  isListening = false;
-  document.getElementById('micBtn').classList.remove('recording');
-  document.getElementById('voiceStatus').classList.remove('show');
-  if (recognition) { try { recognition.stop(); } catch(e){} }
+function stopGen(){if(abortCtrl)abortCtrl.abort();removeTyping();busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');showToast('⏹ Stopped');}
+
+// IMAGE GENERATION — FREE via Pollinations AI
+async function generateImage(prompt){
+  const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${Math.floor(Math.random()*99999)}&width=512&height=512&nologo=true`;
+  const loadId=appendMsg('ai','<div style="color:var(--muted);font-size:13px;">🎨 Generating your image... please wait (10-20 sec)</div>');
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      const el=document.getElementById(loadId+'b');
+      if(el)el.innerHTML=`<div style="font-size:12px;color:var(--muted);margin-bottom:6px;">✨ Here's your AI image:</div><img src="${url}" class="gen-img" alt="AI Generated Image"><br><a href="${url}" download="nexusai.jpg" class="img-dl-btn">⬇️ Download</a>`;
+      resolve();
+    };
+    img.onerror=()=>{const el=document.getElementById(loadId+'b');if(el)el.innerHTML='⚠️ Generation failed. Try a different prompt.';resolve();};
+    img.src=url;setTimeout(()=>resolve(),35000);
+  });
 }
 
-
-async function sendMsg(quickText) {
-  const input = document.getElementById('msgInput');
-  const text  = (quickText || input.value).trim();
-  if (!text && !uploadedImageBase64 || busy) return;
-
-  // Check limit
-  const limit = DAILY_LIMITS[userPlan] || 5;
-  if (userPlan !== 'premium' && dailyUsed >= limit) {
-    document.getElementById('limitModal').classList.add('show');
-    return;
+// SEND MESSAGE — NO LIMITS
+async function sendMsg(quickText){
+  const input=document.getElementById('msgInput');
+  const text=(typeof quickText==='string'&&quickText!=='__regen__'?quickText:input.value).trim();
+  if((!text&&!uploadedImageBase64)||busy)return;
+  input.value='';input.style.height='auto';
+  const imgB64=uploadedImageBase64,imgType=uploadedImageType;removeImage();
+  if(quickText!=='__regen__'){
+    let uHTML='';
+    if(imgB64)uHTML+=`<img src="data:${imgType};base64,${imgB64}" style="max-height:100px;border-radius:8px;margin-bottom:6px;display:block;">`;
+    uHTML+=esc(text||'📷 Analyze this image');
+    appendMsg('user',uHTML);
+    const content=imgB64?[{type:'image_url',image_url:{url:`data:${imgType};base64,${imgB64}`}},{type:'text',text:text||'Describe this image in detail.'}]:String(text);
+    messages.push({role:'user',content});
   }
-
-  const displayText = text || '📷 Image sent';
-  input.value = ''; input.style.height = 'auto';
-
-  // Build message with optional image
-  let userContent;
-  if (uploadedImageBase64) {
-    userContent = [
-      { type: 'image_url', image_url: { url: `data:${uploadedImageType};base64,${uploadedImageBase64}` } },
-      { type: 'text', text: text || 'What is in this image? Describe it in detail.' }
-    ];
-  } else {
-    userContent = text;
+  busy=true;document.getElementById('sendBtn').disabled=true;document.getElementById('stopBtn').classList.add('show');
+  if(isListening)stopVoice();
+  if(currentTool==='imagegen'&&text){
+    await generateImage(text);
+    messages.push({role:'assistant',content:'[Image generated for: '+text+']'});
+    busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');
+    saveCurrentChat();return;
   }
-
-  const imgB64 = uploadedImageBase64;
-  const imgType = uploadedImageType;
-  removeImage();
-
-  messages.push({ role:'user', content: userContent });
-
-  // Show user message
-  hideWelcome();
-  const area = document.getElementById('chatArea');
-  const uid  = 'msg' + Date.now();
-  const udiv = document.createElement('div');
-  udiv.className = 'msg user'; udiv.id = uid;
-  let userHTML = `<div class="msg-av">👤</div><div class="msg-body"><div class="msg-who">You</div><div class="msg-bub">`;
-  if (imgB64) userHTML += `<img src="data:${imgType};base64,${imgB64}" style="max-height:100px;border-radius:8px;margin-bottom:6px;display:block;">`;
-  userHTML += `${esc(displayText)}</div></div>`;
-  udiv.innerHTML = userHTML;
-  area.appendChild(udiv);
-  area.scrollTop = area.scrollHeight;
-
   addTyping();
-  busy = true;
-  document.getElementById('sendBtn').disabled = true;
-  if (isListening) stopVoice();
-
-  try {
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) { removeTyping(); showToast('❌ Session expired.'); busy=false; return; }
-
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
-      body: JSON.stringify({
-        messages: messages.slice(-10),
-        system: TOOLS[currentTool].sys,
-        hasImage: !!imgB64,
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(!session){removeTyping();showToast('❌ Session expired. Please login.');busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');return;}
+    abortCtrl=new AbortController();
+    const res=await fetch('/.netlify/functions/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
+      body:JSON.stringify({
+        messages:messages.slice(-10).map(m=>({role:m.role,content:Array.isArray(m.content)?m.content:String(m.content||'')})),
+        system:TOOLS[currentTool].sys,
+        hasImage:!!imgB64,
       }),
+      signal:abortCtrl.signal
     });
-    const data = await res.json();
-    removeTyping();
-
-    if (data.error === 'limit_reached') {
-      document.getElementById('limitModal').classList.add('show');
-      messages.pop();
-    } else if (data.error) {
-      appendMsg('ai', '⚠️ ' + data.error);
-    } else {
-      const reply = data.reply;
-      messages.push({ role:'assistant', content:reply });
-      appendMsg('ai', mdFormat(reply));
-      dailyUsed++;
-      await sb.from('usage_tracking').update({
-        daily_message_count: dailyUsed,
-      }).eq('user_id', currentUser.id);
-      updateUsageUI();
-
-      if (userPlan !== 'premium' && dailyUsed >= limit) {
-        setTimeout(() => document.getElementById('limitModal').classList.add('show'), 800);
-      }
+    const data=await res.json();removeTyping();
+    if(data.error){appendMsg('ai','⚠️ '+esc(data.error));}
+    else{
+      const reply=String(data.reply||'');
+      messages.push({role:'assistant',content:reply});
+      appendMsg('ai',mdFormat(reply));
+      saveCurrentChat();
     }
-  } catch(e) {
-    removeTyping();
-    appendMsg('ai', '⚠️ Connection error. Please try again.');
+  }catch(e){
+    if(e.name!=='AbortError'){removeTyping();appendMsg('ai','⚠️ Connection error. Please try again.');}
+    else removeTyping();
   }
-
-  busy = false;
-  document.getElementById('sendBtn').disabled = false;
+  busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');
   document.getElementById('msgInput').focus();
 }
 
-
-
-function onKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+async function regenMsg(){if(busy||messages.length<2)return;if(messages[messages.length-1].role==='assistant')messages.pop();await sendMsg('__regen__');}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function clearChat(){saveCurrentChat();messages=[];activeChatId=null;clearChatArea();showToast('✅ Chat cleared');}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function copyMsg(id){const el=document.getElementById(id);if(!el)return;navigator.clipboard.writeText(el.innerText).then(()=>showToast('✅ Copied!'));}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function mdFormat(text){
+  let s=String(text||'');
+  s=s.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,lang,code)=>{
+    const bid='cb'+(++codeBlockId),escaped=code.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<pre><div class="code-hdr"><span class="code-lang">${lang||'code'}</span><button class="code-copy" onclick="copyCode('${bid}')">Copy</button></div><code id="${bid}">${escaped}</code></pre>`;
+  });
+  s=s.replace(/`([^`]+)`/g,(_,c)=>`<code>${esc(c)}</code>`);
+  s=s.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  s=s.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  s=s.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+  s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/\*(.+?)\*/g,'<em>$1</em>');
+  s=s.replace(/^[-•] (.+)$/gm,'<li>$1</li>');
+  s=s.replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>');
+  s=s.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+  return s;
 }
-
-function clearChat() {
-  messages = [];
-  clearChatArea();
-  showToast('✅ Chat cleared');
-}
-
-// ── UPGRADE ──────────────────────────────────────────────
-function showUpgrade()  { document.getElementById('upgradeModal').classList.add('show'); }
-function hideUpgrade()  { document.getElementById('upgradeModal').classList.remove('show'); }
-function hideLimitModal(){ document.getElementById('limitModal').classList.remove('show'); }
-
-function handleUpgrade(plan) {
-  // TODO: Integrate Razorpay here
-  showToast('🚀 Payment via Razorpay — Coming soon! Contact us to upgrade manually.');
-  hideUpgrade();
-}
-
-// ── SIDEBAR ──────────────────────────────────────────────
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('show');
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
-}
-
-// ── UTILS ────────────────────────────────────────────────
-function copyMsg(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  navigator.clipboard.writeText(el.innerText).then(() => showToast('✅ Copied!'));
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function mdFormat(text) {
-  return esc(text)
-    .replace(/```(\w*)\n?([\s\S]*?)```/g, (_,l,c) => `<pre><code>${c.trim()}</code></pre>`)
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^[-•] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>')
-    .replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
-}
+function copyCode(id){const el=document.getElementById(id);if(!el)return;navigator.clipboard.writeText(el.innerText).then(()=>showToast('✅ Code copied!'));}
 </script>
 </body>
 </html>
