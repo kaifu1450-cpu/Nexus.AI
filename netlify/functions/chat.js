@@ -54,8 +54,8 @@ exports.handler = async function (event) {
       body: JSON.stringify({
         model,
         messages:    groqMessages,
-        max_tokens:  1500,
-        temperature: 0.7,
+        max_tokens:  3000,
+        temperature: 0.6,
       }),
     });
 
