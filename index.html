@@ -279,13 +279,13 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
       </div>
     </div>
     <div class="free-badge">
-      <div class="free-badge-title">✅ 100% Free Forever</div>
+      <div class="free-badge-title">✅ 100% Free</div>
       <div class="free-badge-sub">Unlimited messages · All tools</div>
     </div>
     <div class="sb-footer">
       <div class="user-pill">
         <div class="user-av" id="userAv">U</div>
-        <div style="flex:1;min-width:0;"><div class="user-name" id="userName">User</div><div class="user-plan-tag">✅ Free Forever</div></div>
+        <div style="flex:1;min-width:0;"><div class="user-name" id="userName">User</div><div class="user-plan-tag">✅ Free Plan</div></div>
         <button class="logout-btn" onclick="logout()" title="Logout">↩</button>
       </div>
     </div>
@@ -319,20 +319,24 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
             <button class="img-preview-remove" onclick="removeImage()">×</button>
           </div>
         </div>
-        <div class="voice-status" id="voiceStatus">🎤 Listening... speak now</div>
+        <div class="voice-status" id="voiceStatus">Listening... speak now</div>
         <div class="upgraded-input-box">
-          <textarea id="msgInput" class="upgraded-textarea" placeholder="Ask anything... type, speak 🎤 or upload image 📷" rows="1"
+          <textarea id="msgInput" class="upgraded-textarea" placeholder="Message NexusAI..." rows="1"
             onkeydown="onKey(event)"
             oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px'"></textarea>
           <div class="input-toolbar">
             <input type="file" id="imgUpload" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-            <div class="tool-action-btn" onclick="document.getElementById('imgUpload').click()" title="Upload Image">📷</div>
-            <div class="tool-action-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">🎤</div>
+            <div class="tool-action-btn" onclick="document.getElementById('imgUpload').click()" title="Upload Image">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <div class="tool-action-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </div>
             <button class="stop-btn" id="stopBtn" onclick="stopGen()">⏹ Stop</button>
             <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
           </div>
         </div>
-        <div class="input-hint">NexusAI · 100% Free · Voice 🎤 · Image 📷 · Image Gen 🎨 · Powered by Groq AI</div>
+        <div class="input-hint">NexusAI can make mistakes. Please double check.</div>
       </div>
     </div>
   </div>
@@ -342,8 +346,8 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
 
 <script>
 // ══ CONFIG — Apni keys yahan daalo ══
-const SUPABASE_URL  = 'https://ydmuksiqevdmylulgrdy.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkbXVrc2lxZXZkbXlsdWxncmR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMjM3NDAsImV4cCI6MjA5NDU5OTc0MH0.xrgx0OoYVQtzsdSFQAOEPZTQU3SaOPu6BfAHblJ2pgw';
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON, {
@@ -356,7 +360,7 @@ const TOOLS = {
   chat:      { name:'Smart Chat',       desc:'Ask me anything — I\'m here to help', icon:'✦',  pills:['Explain this','Give examples','Pros & Cons','Simplify'],       quick:[{i:'💡',t:'Explain a concept'},{i:'🔍',t:'Analyze something'},{i:'🗺️',t:'Plan something'},{i:'🎯',t:'Solve a problem'}],      sys: BASE_SYS + " You are in general-purpose chat mode — handle any topic: explanations, analysis, brainstorming, problem-solving, advice, or casual conversation. For factual or technical topics, be accurate and cite the reasoning behind claims. For open-ended or subjective topics, present a balanced view of different perspectives." },
   writer:    { name:'AI Writer',        desc:'Blog posts, articles & more',          icon:'✍️', pills:['Blog post','Short story','Product desc','Ad copy'],          quick:[{i:'📝',t:'Write a blog post'},{i:'🎭',t:'Creative story'},{i:'📢',t:'Ad copy'},{i:'📖',t:'Content outline'}],               sys: BASE_SYS + " You are in writing mode. Produce polished, engaging, well-structured content with a natural human voice — vary sentence length, avoid cliché openers ('In today's world...'), and use concrete, vivid language over generic abstractions. Match tone to the requested format (playful for social copy, authoritative for articles, persuasive for ads). Always include a strong hook in the first line." },
   coder:     { name:'Code Helper',      desc:'Write, debug & explain code',          icon:'💻', pills:['Write code','Debug this','Explain code','Optimize'],         quick:[{i:'🔧',t:'Fix my bug'},{i:'⚡',t:'Write a function'},{i:'📚',t:'Explain code'},{i:'🚀',t:'Best practices'}],                sys: BASE_SYS + " You are in coding mode. Always wrap code in fenced blocks with the correct language tag. Write clean, idiomatic, production-quality code with meaningful variable names. After code, briefly explain what it does and call out any important edge cases, assumptions, or tradeoffs. When debugging, identify the root cause before suggesting the fix, not just a patch. Prefer modern, widely-supported syntax." },
-  imagegen:  { name:'Image Generator',  desc:'Create AI images — FREE, no limits!',  icon:'🎨', pills:['Realistic photo','Digital art','Anime style','Logo'],       quick:[{i:'📸',t:'Realistic portrait'},{i:'🏙️',t:'Beautiful landscape'},{i:'🎨',t:'Abstract art'},{i:'🤖',t:'Sci-fi scene'}],     sys: BASE_SYS + " You help users craft and generate images." },
+  imagegen:  { name:'Image Generator',  desc:'Create AI images — just describe what you want',  icon:'🎨', pills:['Realistic photo','Digital art','Anime style','Logo'],       quick:[{i:'📸',t:'Realistic portrait'},{i:'🏙️',t:'Beautiful landscape'},{i:'🎨',t:'Abstract art'},{i:'🤖',t:'Sci-fi scene'}],     sys: BASE_SYS + " You are in image generation mode. If the user greets you or chats casually, respond naturally and briefly invite them to describe an image they'd like generated. If they describe a scene, subject, or style, that will be turned into an image automatically — you don't need to generate it yourself, just be helpful in conversation." },
   imgprompt: { name:'Image Prompts',    desc:'Perfect AI image prompts',             icon:'✨', pills:['Realistic photo','Art style','Logo design','Product photo'], quick:[{i:'📸',t:'Realistic photo'},{i:'🎨',t:'Art style'},{i:'🖼️',t:'Logo & branding'},{i:'🌄',t:'Landscape'}],             sys: BASE_SYS + " You are an expert AI image-prompt engineer for tools like Midjourney, DALL-E, and Stable Diffusion. Write highly detailed prompts covering subject, composition, lighting, color palette, camera/lens details, art style, and mood. Offer 2-3 prompt variations when useful, and briefly explain why each choice works." },
   marketing: { name:'Marketing AI',     desc:'Ads, campaigns & brand content',       icon:'📢', pills:['Facebook Ad','Instagram post','Google Ad','Campaign'],      quick:[{i:'📱',t:'Social media ad'},{i:'🎯',t:'Target audience'},{i:'💬',t:'Brand voice'},{i:'📊',t:'Campaign strategy'}],   sys: BASE_SYS + " You are a senior digital marketing strategist. Apply proven frameworks (AIDA, PAS, StoryBrand) where relevant, ground recommendations in audience psychology, and give specific, usable copy — not generic advice. Always tailor tone to the stated platform and audience." },
   email:     { name:'Email Writer',     desc:'Professional emails in seconds',       icon:'📧', pills:['Cold email','Follow up','Proposal','Newsletter'],            quick:[{i:'🤝',t:'Business proposal'},{i:'📩',t:'Cold outreach'},{i:'💌',t:'Newsletter'},{i:'✅',t:'Follow-up'}],             sys: BASE_SYS + " You are an expert business-communication writer. Write clear, concise, professional emails with a compelling subject line, appropriate greeting/sign-off, and a clear single call-to-action. Avoid corporate jargon and keep sentences short." },
@@ -565,6 +569,23 @@ function stopVoice(){isListening=false;document.getElementById('micBtn').classLi
 function stopGen(){if(abortCtrl)abortCtrl.abort();removeTyping();busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');showToast('⏹ Stopped');}
 
 // IMAGE GENERATION — FREE via Pollinations AI
+// Detect if user actually wants an image generated vs just chatting
+function isImageRequest(text){
+  const t=text.toLowerCase().trim();
+  // Too short / pure greeting / casual chat — don't generate
+  const greetings=/^(hi|hii|hiii|hello|hey|heyy|yo|hola|sup|namaste|namaskar|kaise ho|kya hal|good morning|good evening|good night|gm|gn|ok|okay|thanks|thank you|thanks bhai|thik|theek|theek hai|haan|han|nahi|no|yes|bye|kaun ho|kya kar rahe ho|what's up|whats up)[\s!.?]*$/i;
+  if(greetings.test(t)) return false;
+  if(t.length<4) return false;
+  // Explicit image-intent keywords
+  const imageWords=/\b(image|photo|picture|pic|draw|generate|create.*image|make.*image|art|painting|illustration|wallpaper|logo|poster|design|render|sketch|portrait|landscape image|banao|banado|bana do|bana de|tasveer|chitra|photo bana)\b/i;
+  if(imageWords.test(t)) return true;
+  // If it's a question (chat-like), don't generate
+  const questionWords=/^(what|why|how|who|when|where|which|can you|do you|is it|are you|kya|kyu|kaise|kab|kaun)\b/i;
+  if(questionWords.test(t)) return false;
+  // Default: if reasonably descriptive (4+ words), treat as image prompt; else treat as chat
+  return t.split(/\s+/).length>=3;
+}
+
 async function generateImage(prompt){
   const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${Math.floor(Math.random()*99999)}&width=512&height=512&nologo=true`;
   const loadId=appendMsg('ai','<div style="color:var(--muted);font-size:13px;">🎨 Generating your image... please wait (10-20 sec)</div>');
@@ -597,7 +618,7 @@ async function sendMsg(quickText){
   }
   busy=true;document.getElementById('sendBtn').disabled=true;document.getElementById('stopBtn').classList.add('show');
   if(isListening)stopVoice();
-  if(currentTool==='imagegen'&&text){
+  if(currentTool==='imagegen'&&text&&isImageRequest(text)){
     await generateImage(text);
     messages.push({role:'assistant',content:'[Image generated for: '+text+']'});
     busy=false;document.getElementById('sendBtn').disabled=false;document.getElementById('stopBtn').classList.remove('show');
