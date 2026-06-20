@@ -69,7 +69,8 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
 .tool-btn{width:100%;display:flex;align-items:center;gap:9px;padding:7px 10px;border:none;background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;font-size:13px;font-weight:500;transition:all .12s;text-align:left;}
 .tool-btn:hover{background:var(--card);color:var(--text);}
 .tool-btn.active{background:rgba(124,106,247,.18);color:var(--accent2);border:1px solid rgba(124,106,247,.25);}
-.tool-btn .ico{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
+.tool-btn .ico{font-size:18px;width:14px;text-align:center;flex-shrink:0;color:var(--muted);line-height:1;opacity:.5;}
+.tool-btn.active .ico{color:var(--accent2);opacity:1;}
 .hist-section{padding:8px 8px 2px;}
 .hist-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
 .hist-item{width:100%;display:flex;align-items:center;gap:6px;padding:6px 10px;border:none;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;text-align:left;transition:all .12s;position:relative;}
@@ -242,40 +243,40 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">General</div>
-        <button class="tool-btn active" data-tool="chat" onclick="setTool(this)"><span class="ico">💬</span>Smart Chat</button>
+        <button class="tool-btn active" data-tool="chat" onclick="setTool(this)"><span class="ico">•</span>Smart Chat</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Create</div>
-        <button class="tool-btn" data-tool="writer" onclick="setTool(this)"><span class="ico">✍️</span>AI Writer</button>
-        <button class="tool-btn" data-tool="coder" onclick="setTool(this)"><span class="ico">💻</span>Code Helper</button>
-        <button class="tool-btn" data-tool="imagegen" onclick="setTool(this)"><span class="ico">🎨</span>Image Generator</button>
-        <button class="tool-btn" data-tool="imgprompt" onclick="setTool(this)"><span class="ico">✨</span>Image Prompts</button>
+        <button class="tool-btn" data-tool="writer" onclick="setTool(this)"><span class="ico">•</span>AI Writer</button>
+        <button class="tool-btn" data-tool="coder" onclick="setTool(this)"><span class="ico">•</span>Code Helper</button>
+        <button class="tool-btn" data-tool="imagegen" onclick="setTool(this)"><span class="ico">•</span>Image Generator</button>
+        <button class="tool-btn" data-tool="imgprompt" onclick="setTool(this)"><span class="ico">•</span>Image Prompts</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Work & Business</div>
-        <button class="tool-btn" data-tool="marketing" onclick="setTool(this)"><span class="ico">📢</span>Marketing AI</button>
-        <button class="tool-btn" data-tool="email" onclick="setTool(this)"><span class="ico">📧</span>Email Writer</button>
-        <button class="tool-btn" data-tool="resume" onclick="setTool(this)"><span class="ico">📄</span>Resume Builder</button>
-        <button class="tool-btn" data-tool="business" onclick="setTool(this)"><span class="ico">🚀</span>Business Advisor</button>
+        <button class="tool-btn" data-tool="marketing" onclick="setTool(this)"><span class="ico">•</span>Marketing AI</button>
+        <button class="tool-btn" data-tool="email" onclick="setTool(this)"><span class="ico">•</span>Email Writer</button>
+        <button class="tool-btn" data-tool="resume" onclick="setTool(this)"><span class="ico">•</span>Resume Builder</button>
+        <button class="tool-btn" data-tool="business" onclick="setTool(this)"><span class="ico">•</span>Business Advisor</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Learn & Research</div>
-        <button class="tool-btn" data-tool="study" onclick="setTool(this)"><span class="ico">📚</span>Study Helper</button>
-        <button class="tool-btn" data-tool="summarize" onclick="setTool(this)"><span class="ico">📋</span>Summarizer</button>
-        <button class="tool-btn" data-tool="translate" onclick="setTool(this)"><span class="ico">🌐</span>Translator</button>
-        <button class="tool-btn" data-tool="research" onclick="setTool(this)"><span class="ico">🔬</span>Research AI</button>
+        <button class="tool-btn" data-tool="study" onclick="setTool(this)"><span class="ico">•</span>Study Helper</button>
+        <button class="tool-btn" data-tool="summarize" onclick="setTool(this)"><span class="ico">•</span>Summarizer</button>
+        <button class="tool-btn" data-tool="translate" onclick="setTool(this)"><span class="ico">•</span>Translator</button>
+        <button class="tool-btn" data-tool="research" onclick="setTool(this)"><span class="ico">•</span>Research AI</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Lifestyle</div>
-        <button class="tool-btn" data-tool="health" onclick="setTool(this)"><span class="ico">💪</span>Health & Fitness</button>
-        <button class="tool-btn" data-tool="recipe" onclick="setTool(this)"><span class="ico">🍳</span>Recipe Creator</button>
-        <button class="tool-btn" data-tool="travel" onclick="setTool(this)"><span class="ico">✈️</span>Travel Planner</button>
-        <button class="tool-btn" data-tool="finance" onclick="setTool(this)"><span class="ico">💰</span>Finance Guide</button>
+        <button class="tool-btn" data-tool="health" onclick="setTool(this)"><span class="ico">•</span>Health & Fitness</button>
+        <button class="tool-btn" data-tool="recipe" onclick="setTool(this)"><span class="ico">•</span>Recipe Creator</button>
+        <button class="tool-btn" data-tool="travel" onclick="setTool(this)"><span class="ico">•</span>Travel Planner</button>
+        <button class="tool-btn" data-tool="finance" onclick="setTool(this)"><span class="ico">•</span>Finance Guide</button>
       </div>
       <div class="sb-sec">
         <div class="sb-sec-label">Social Media</div>
-        <button class="tool-btn" data-tool="social" onclick="setTool(this)"><span class="ico">📱</span>Caption Generator</button>
-        <button class="tool-btn" data-tool="youtube" onclick="setTool(this)"><span class="ico">▶️</span>YouTube Helper</button>
+        <button class="tool-btn" data-tool="social" onclick="setTool(this)"><span class="ico">•</span>Caption Generator</button>
+        <button class="tool-btn" data-tool="youtube" onclick="setTool(this)"><span class="ico">•</span>YouTube Helper</button>
       </div>
     </div>
     <div class="free-badge">
@@ -346,8 +347,8 @@ button{cursor:pointer;font-family:inherit;}input,textarea{font-family:inherit;}
 
 <script>
 // ══ CONFIG — Apni keys yahan daalo ══
-const SUPABASE_URL  = 'https://ydmuksiqevdmylulgrdy.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkbXVrc2lxZXZkbXlsdWxncmR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMjM3NDAsImV4cCI6MjA5NDU5OTc0MH0.xrgx0OoYVQtzsdSFQAOEPZTQU3SaOPu6BfAHblJ2pgw';
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON, {
@@ -405,13 +406,23 @@ function loadUserUI(){
   sb.from('users').upsert({id:currentUser.id,email:currentUser.email,full_name:name,plan:'free'},{onConflict:'id'}).then(()=>{});
 }
 
-// HISTORY
-function loadHistory(){
+// HISTORY — saved to Supabase (synced across devices), with localStorage as offline fallback
+async function loadHistory(){
+  // Show cached version instantly
   try{const s=localStorage.getItem('nxh_'+currentUser.id);chatHistory=s?JSON.parse(s):[];}catch(e){chatHistory=[];}
   renderHistory();
+  // Then sync from Supabase (source of truth)
+  try{
+    const{data,error}=await sb.from('chats').select('id,tool,title,messages,updated_at').eq('user_id',currentUser.id).order('updated_at',{ascending:true});
+    if(!error&&data){
+      chatHistory=data.map(d=>({id:d.id,title:d.title,tool:d.tool,messages:d.messages||[]}));
+      localStorage.setItem('nxh_'+currentUser.id,JSON.stringify(chatHistory));
+      renderHistory();
+    }
+  }catch(e){}
 }
 function saveHistory(){
-  if(chatHistory.length>30)chatHistory=chatHistory.slice(-30);
+  if(chatHistory.length>50)chatHistory=chatHistory.slice(-50);
   try{localStorage.setItem('nxh_'+currentUser.id,JSON.stringify(chatHistory));}catch(e){}
   renderHistory();
 }
@@ -421,20 +432,32 @@ function renderHistory(){
   sec.style.display='block';
   list.innerHTML=chatHistory.slice().reverse().map(h=>
     `<button class="hist-item${h.id===activeChatId?' active-h':''}" onclick="loadChat('${h.id}')">
-      <span style="font-size:12px;flex-shrink:0;">${TOOLS[h.tool]?.icon||'💬'}</span>
+      <span style="font-size:14px;flex-shrink:0;color:var(--muted);opacity:.5;">•</span>
       <span class="hist-title">${esc(h.title)}</span>
       <button class="hist-del" onclick="event.stopPropagation();deleteChat('${h.id}')">✕</button>
     </button>`
   ).join('');
 }
 function newChat(){saveCurrentChat();messages=[];activeChatId=null;clearChatArea();renderHistory();if(window.innerWidth<650)closeSidebar();}
-function saveCurrentChat(){
+async function saveCurrentChat(){
   if(!messages.length)return;
   const first=messages[0];
   const title=(typeof first.content==='string'?first.content:(first.content?.find?.(c=>c.type==='text')?.text||'Chat')).slice(0,45);
-  if(activeChatId){const idx=chatHistory.findIndex(h=>h.id===activeChatId);if(idx>-1){chatHistory[idx].messages=[...messages];chatHistory[idx].title=title;}}
-  else{activeChatId='c'+Date.now();chatHistory.push({id:activeChatId,title,tool:currentTool,messages:[...messages]});}
+  if(activeChatId){
+    const idx=chatHistory.findIndex(h=>h.id===activeChatId);
+    if(idx>-1){chatHistory[idx].messages=[...messages];chatHistory[idx].title=title;}
+  }else{
+    activeChatId='c'+Date.now();
+    chatHistory.push({id:activeChatId,title,tool:currentTool,messages:[...messages]});
+  }
   saveHistory();
+  // Persist to Supabase in background (non-blocking)
+  try{
+    await sb.from('chats').upsert({
+      id:activeChatId,user_id:currentUser.id,tool:currentTool,title,
+      messages:[...messages],updated_at:new Date().toISOString()
+    },{onConflict:'id'});
+  }catch(e){}
 }
 function loadChat(id){
   const chat=chatHistory.find(h=>h.id===id);if(!chat)return;
@@ -447,11 +470,13 @@ function loadChat(id){
   });
   renderHistory();if(window.innerWidth<650)closeSidebar();
 }
-function deleteChat(id){
+async function deleteChat(id){
   chatHistory=chatHistory.filter(h=>h.id!==id);
   if(activeChatId===id){activeChatId=null;messages=[];clearChatArea();}
-  saveHistory();showToast('🗑️ Chat deleted');
+  saveHistory();showToast('Chat deleted');
+  try{await sb.from('chats').delete().eq('id',id).eq('user_id',currentUser.id);}catch(e){}
 }
+
 
 // LOGIN
 async function sendOTP(){
@@ -587,8 +612,10 @@ function isImageRequest(text){
 }
 
 async function generateImage(prompt){
-  const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${Math.floor(Math.random()*99999)}&width=512&height=512&nologo=true`;
-  const loadId=appendMsg('ai','<div style="color:var(--muted);font-size:13px;">🎨 Generating your image... please wait (10-20 sec)</div>');
+  // Enhance the prompt for higher quality, photorealistic output
+  const enhancedPrompt = prompt + ', highly detailed, sharp focus, professional quality, 8k, realistic lighting';
+  const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?model=flux&seed=${Math.floor(Math.random()*99999)}&width=1024&height=1024&nologo=true&enhance=true`;
+  const loadId=appendMsg('ai','<div style="color:var(--muted);font-size:13px;">Generating your image... this can take 20-40 seconds for best quality</div>');
   return new Promise(resolve=>{
     const img=new Image();
     img.onload=()=>{
@@ -597,7 +624,7 @@ async function generateImage(prompt){
       resolve();
     };
     img.onerror=()=>{const el=document.getElementById(loadId+'b');if(el)el.innerHTML='⚠️ Generation failed. Try a different prompt.';resolve();};
-    img.src=url;setTimeout(()=>resolve(),35000);
+    img.src=url;setTimeout(()=>resolve(),55000);
   });
 }
 
