@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nexusai-all-in-one-aiassistant.netlify.app/sitemap.xml
